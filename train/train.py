@@ -1,7 +1,9 @@
 import tensorflow as tf
+import os
+
 print("TensorFlow version:", tf.__version__)
 
-"""
+
 mnist = tf.keras.datasets.mnist
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -37,8 +39,10 @@ probability_model = tf.keras.Sequential([
   tf.keras.layers.Softmax()
 ])
 
+model.save('/usr/src/app/models/model2.keras')
+print(os.getcwd())
+print(os.listdir('/usr/src/app/models'))
+
+
+
 probability_model(x_test[:5])
-
-
-"""
-

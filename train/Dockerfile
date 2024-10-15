@@ -5,12 +5,11 @@ FROM tensorflow/tensorflow:latest
 WORKDIR /usr/src/app
 
 # Copy the Python script to the container
-COPY train.py .
+COPY train.py requirements.txt ./
+
 
 # Install any required Python packages (if applicable)
-
-# Ensure that the container writes to a shared volume (bind mount for model output)
-#VOLUME ["/usr/src/app/models"]
+RUN pip install -r ./requirements.txt
 
 # Run the Python script when the container starts
 CMD ["python", "train.py"]
