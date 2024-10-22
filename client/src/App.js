@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< Updated upstream
-import logo from './FutureFieldLogo.png';
-=======
 import Homepage from './pages/Homepage/HomePage';
->>>>>>> Stashed changes
 import './App.css';
 
 function App() {
@@ -12,7 +8,7 @@ function App() {
 
 
   useEffect(() => {
-    console.log("hello world");
+    console.log("Fetching time...");
     fetch('/api/time').then(res => res.json()).then(data => {
       setCurrentTime(data.time);
     });
@@ -31,29 +27,13 @@ function App() {
 
   return (
     <div className="App">
-<<<<<<< Updated upstream
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Welcome to Future Field
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>The current time is {currentTime}.</p>
-      </header>
-=======
       <Homepage />
       <p>The current time is {currentTime}.</p>
       <p>the current date is {date}.</p>
->>>>>>> Stashed changes
     </div>
   );
 }
 
 export default App;
+
+
