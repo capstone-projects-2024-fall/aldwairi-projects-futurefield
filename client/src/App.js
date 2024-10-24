@@ -9,6 +9,7 @@ function App() {
 
   useEffect(() => {
     console.log("Fetching time...");
+    console.log("Fetching time...");
     fetch('/api/time').then(res => res.json()).then(data => {
       setCurrentTime(data.time);
     });

@@ -1,11 +1,12 @@
 import React from 'react';
 import './homepage.css'; 
+import FutureFieldLogo from 'assets/FutureFieldLogo.png';
 
 function Homepage() {
   return (
     <div className="homepage">
       <header className="homepage-header">
-        <img src="/FutureFieldLogo.png" alt="Logo" className="logo" />
+        <img src={FutureFieldLogo} alt="Logo" className="logo" />
         <nav className="navbar">
           <ul>
             <li><a href="#stats">Stats</a></li>
