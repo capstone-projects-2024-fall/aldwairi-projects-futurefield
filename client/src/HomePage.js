@@ -9,19 +9,19 @@ function Homepage() {
     generateWeekDates(currentStartDate);
   }, [currentStartDate]);
 
-  // Function to generate the next 7 days starting from the given date
+  // function to generate the next 7 days starting from the given date
   const generateWeekDates = (startDate) => {
     const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
     const weekDates = [];
 
     for (let i = 0; i < 7; i++) {
       const day = new Date(startDate);
-      day.setDate(startDate.getDate() + i); // Increment the day
+      day.setDate(startDate.getDate() + i); // increment the day
 
       weekDates.push({
         dayName: daysOfWeek[day.getDay()],
         dateNumber: day.getDate(),
-        isToday: day.toDateString() === new Date().toDateString(), // Check if it's today
+        isToday: day.toDateString() === new Date().toDateString(), // check if it's today
         monthName: day.toLocaleString('default', { month: 'short' })
       });
     }
@@ -29,17 +29,17 @@ function Homepage() {
     setDates(weekDates);
   };
 
-  // Function to handle moving to the next day
+  // function to handle moving to the next day
   const handleNextDay = () => {
     const newStartDate = new Date(currentStartDate);
-    newStartDate.setDate(currentStartDate.getDate() + 1); // Move start date 1 day forward
+    newStartDate.setDate(currentStartDate.getDate() + 1); 
     setCurrentStartDate(newStartDate);
   };
 
-  // Function to handle moving to the previous day
+  // function to handle moving to the previous day
   const handlePreviousDay = () => {
     const newStartDate = new Date(currentStartDate);
-    newStartDate.setDate(currentStartDate.getDate() - 1); // Move start date 1 day back
+    newStartDate.setDate(currentStartDate.getDate() - 1); 
     setCurrentStartDate(newStartDate);
   };
 
@@ -63,16 +63,16 @@ function Homepage() {
         {/* Calendar container */}
         <div className="calendar-container">
           <div className="calendar-navigation">
-          <button className="nav-arrow" onClick={handlePreviousDay} aria-label="Previous Day">&#8249;</button>
+          <span className="nav-arrow" onClick={handlePreviousDay} aria-label="Previous Day">&#8249;</span>
             <div className="dates">
-              {dates.map((dateObj, index) => (
-                <div key={index} className={`date ${dateObj.isToday ? 'today' : ''}`}>
-                  <span className="day">{dateObj.isToday ? 'TODAY' : dateObj.dayName}</span>
-                  <span className="date-number">{`${dateObj.monthName} ${dateObj.dateNumber}`}</span>
-                </div>
-              ))}
+            {dates.map((dateObj) => (
+              <div key={dateObj.id} className={`date ${dateObj.isToday ? 'today' : ''}`}>
+                <span className="day">{dateObj.isToday ? 'TODAY' : dateObj.dayName}</span>
+                <span className="date-number">{`${dateObj.monthName} ${dateObj.dateNumber}`}</span>
+              </div>
+            ))}
             </div>
-            <button className="nav-arrow" onClick={handleNextDay}>&#8250;</button>
+            <span className="nav-arrow" onClick={handleNextDay}>&#8250;</span>
             <span className="calendar-icon">&#128197;</span>
           </div>
         </div>
