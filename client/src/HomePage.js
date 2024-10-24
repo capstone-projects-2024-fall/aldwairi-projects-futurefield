@@ -63,7 +63,7 @@ function Homepage() {
         {/* Calendar container */}
         <div className="calendar-container">
           <div className="calendar-navigation">
-            <span className="nav-arrow" onClick={handlePreviousDay}>&#8249;</span>
+          <button className="nav-arrow" onClick={handlePreviousDay} aria-label="Previous Day">&#8249;</button>
             <div className="dates">
               {dates.map((dateObj, index) => (
                 <div key={index} className={`date ${dateObj.isToday ? 'today' : ''}`}>
@@ -72,7 +72,7 @@ function Homepage() {
                 </div>
               ))}
             </div>
-            <span className="nav-arrow" onClick={handleNextDay}>&#8250;</span>
+            <button className="nav-arrow" onClick={handleNextDay}>&#8250;</button>
             <span className="calendar-icon">&#128197;</span>
           </div>
         </div>
