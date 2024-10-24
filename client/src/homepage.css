@@ -138,3 +138,46 @@
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* adds a subtle shadow */
 }
+
+.game-time {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.teams-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.team {
+  text-align: center;
+}
+
+.team-logo {
+  max-width: 50px;
+  margin-bottom: 5px;
+}
+
+.pitchers {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.game-links {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.game-links a {
+  text-decoration: none;
+  color: #007BFF;
+}
+
+.game-links a:hover {
+  text-decoration: underline;
+}

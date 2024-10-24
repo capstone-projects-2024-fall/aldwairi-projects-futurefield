@@ -1,11 +1,7 @@
-import socket
-import time
-from flask import Flask, render_template, request
-import os
+from flask import Flask, request, jsonify
 import statsapi
 
 app = Flask(__name__)
-
 
 @app.route('/')
 def hello_world():
@@ -17,15 +13,37 @@ def get_current_time():
 
 @app.route('/api/date', methods=['POST'])
 def getGamesForDate():
-    #date must be in format: '07/31/2018'
+    # Retrieve the date from the frontend
     date = request.json.get("date")
-    print(date)
-    #sched = statsapi.schedule(start_date=date, sportId=1)
+    
+    if not date:
+        return jsonify({'error': 'Date is required'}), 400
 
-    #print(sched)
-    return {'date': date}
+    try:
+        # Fetch the schedule from the statsapi using the selected date
+        sched = statsapi.schedule(start_date=date, end_date=date, sportId=1)
+
+        if sched:
+            games = []
+            for game in sched:
+
+                games.append({
+                    'away_team': game['away_name'],
+                    'home_team': game['home_name'],
+                    'game_time': game['game_datetime'],
+                    'venue': game['venue_name'],
+                    'broadcast_info': game.get('broadcast') or 'No broadcast info available'
+                })
+
+            # Return the schedule in the response
+            return jsonify({'games': games}), 200
+        else:
+            return jsonify({'message': 'No games found for this date'}), 404
+
+    except Exception as e:
+        print(f"Error fetching schedule: {e}")
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    #app.run(debug=True, host='0.0.0.0', port=int(5000))
     app.run(debug=True)
 
