@@ -1,7 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './homepage.css'; 
 
 function Homepage() {
+  const [dates, setDates] = useState([]);
+  const [currentStartDate, setCurrentStartDate] = useState(new Date());
+
+  useEffect(() => {
+    generateWeekDates(currentStartDate);
+  }, [currentStartDate]);
+
+  // Function to generate the next 7 days starting from the given date
+  const generateWeekDates = (startDate) => {
+    const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    const weekDates = [];
+
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(startDate);
+      day.setDate(startDate.getDate() + i); // Increment the day
+
+      weekDates.push({
+        dayName: daysOfWeek[day.getDay()],
+        dateNumber: day.getDate(),
+        isToday: day.toDateString() === new Date().toDateString(), // Check if it's today
+        monthName: day.toLocaleString('default', { month: 'short' })
+      });
+    }
+
+    setDates(weekDates);
+  };
+
+  // Function to handle moving to the next day
+  const handleNextDay = () => {
+    const newStartDate = new Date(currentStartDate);
+    newStartDate.setDate(currentStartDate.getDate() + 1); // Move start date 1 day forward
+    setCurrentStartDate(newStartDate);
+  };
+
+  // Function to handle moving to the previous day
+  const handlePreviousDay = () => {
+    const newStartDate = new Date(currentStartDate);
+    newStartDate.setDate(currentStartDate.getDate() - 1); // Move start date 1 day back
+    setCurrentStartDate(newStartDate);
+  };
+
   return (
     <div className="homepage">
       <header className="homepage-header">
@@ -13,61 +54,37 @@ function Homepage() {
           </ul>
         </nav>
       </header>
+
       <header className="homepage-banner">
         <nav className="banner">
           <h2>Scores</h2>
           <h2>Schedule</h2>
         </nav>
-        <div class="calendar-navigation">
-          <span class="nav-arrow">&#8249;</span>
-          <div class="dates">
-            <div class="date">
-              <span class="day">SUN</span>
-              <span class="date-number">SEP 29</span>
+        {/* Calendar container */}
+        <div className="calendar-container">
+          <div className="calendar-navigation">
+            <span className="nav-arrow" onClick={handlePreviousDay}>&#8249;</span>
+            <div className="dates">
+              {dates.map((dateObj, index) => (
+                <div key={index} className={`date ${dateObj.isToday ? 'today' : ''}`}>
+                  <span className="day">{dateObj.isToday ? 'TODAY' : dateObj.dayName}</span>
+                  <span className="date-number">{`${dateObj.monthName} ${dateObj.dateNumber}`}</span>
+                </div>
+              ))}
             </div>
-            <div class="date">
-              <span class="day">MON</span>
-              <span class="date-number">SEP 30</span>
-            </div>
-            <div class="date">
-              <span class="day">TUE</span>
-              <span class="date-number">OCT 1</span>
-            </div>
-            <div class="date today">
-              <span class="day">TODAY</span>
-              <span class="date-number">OCT 2</span>
-            </div>
-            <div class="date">
-              <span class="day">THU</span>
-              <span class="date-number">OCT 3</span>
-            </div>
-            <div class="date">
-              <span class="day">FRI</span>
-              <span class="date-number">OCT 4</span>
-            </div>
-            <div class="date">
-              <span class="day">SAT</span>
-              <span class="date-number">OCT 5</span>
-            </div>
+            <span className="nav-arrow" onClick={handleNextDay}>&#8250;</span>
+            <span className="calendar-icon">&#128197;</span>
           </div>
-          <span class="nav-arrow">&#8250;</span> 
-          <span class="calendar-icon">&#128197;</span> 
         </div>
+
       </header>
 
-
       <main className="content">
-          <div className="calendar-grid">
-            <div className="event-box">
-              <p>6:35 PM ET</p>
-            </div>
-            <div className="event-box">
-              <p>Event 2</p>
-            </div>
-            <div className="event-box">
-              <p>Event 3</p>
-            </div>
-          </div>
+        <div className="event-container">
+          <div className="event-box">Event 1: 6:35 PM ET</div>
+          <div className="event-box">Event 2</div>
+          <div className="event-box">Event 3</div>
+        </div>
       </main>
     </div>
   );
