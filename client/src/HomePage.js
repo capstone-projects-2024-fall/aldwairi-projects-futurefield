@@ -15,21 +15,29 @@ function Homepage() {
   const generateWeekDates = (startDate) => {
     const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
     const weekDates = [];
-
+  
     for (let i = 0; i < 7; i++) {
       const day = new Date(startDate);
-      day.setDate(startDate.getDate() + i); // increment the day
-
+      day.setDate(startDate.getDate() + i); // Increment the day
+  
+      // Format the date in MM/DD/YYYY format manually
+      const month = String(day.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+      const dayNumber = String(day.getDate()).padStart(2, '0');
+      const year = day.getFullYear();
+      const formattedDate = `${month}/${dayNumber}/${year}`;  // MM/DD/YYYY format
+  
       weekDates.push({
         dayName: daysOfWeek[day.getDay()],
         dateNumber: day.getDate(),
-        isToday: day.toDateString() === new Date().toDateString(), // check if it's today
-        monthName: day.toLocaleString('default', { month: 'short' })
+        isToday: day.toDateString() === new Date().toDateString(), // Check if it's today
+        monthName: day.toLocaleString('default', { month: 'short' }),
+        formattedDate  // Pass the formatted date
       });
     }
-
-    setDates(weekDates);
+  
+    setDates(weekDates);  // Set the generated dates into state
   };
+    
 
   // function to handle moving to the next day
   const handleNextDay = () => {
@@ -46,16 +54,27 @@ function Homepage() {
   };
 
   const handleDateClick = (selectedDate) => {
+    console.log("Raw Selected Date:", selectedDate);  // Log the raw selected date
+  
     setErrorMessage(null);
-    setGames([]); // clear previous games
-
+    setGames([]); // Clear previous games
+  
+    // Make sure selectedDate is valid before formatting
+    const formattedDate = new Date(selectedDate).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+  
+    console.log("Formatted Date:", formattedDate);  // Log the formatted date for debugging
+  
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ date: selectedDate })
+      body: JSON.stringify({ date: formattedDate })  // Send the formatted date
     };
-
-    fetch('/api/date', requestOptions)
+  
+    fetch('http://127.0.0.1:5000/api/date', requestOptions)
       .then(response => response.json())
       .then(data => {
         if (data.games) {
@@ -69,9 +88,11 @@ function Homepage() {
         console.error("Error fetching games:", error);
       });
   };
+  
 
   return (
     <div className="homepage">
+      {/* Header with logo and navigation */}
       <header className="homepage-header">
         <img src="/FutureFieldLogo.png" alt="Logo" className="logo" />
         <nav className="navbar">
@@ -81,67 +102,65 @@ function Homepage() {
           </ul>
         </nav>
       </header>
-
+  
+      {/* Banner with Scores and Schedule */}
       <header className="homepage-banner">
         <nav className="banner">
           <h2>Scores</h2>
           <h2>Schedule</h2>
         </nav>
+  
         {/* Calendar container */}
         <div className="calendar-container">
           <div className="calendar-navigation">
-          <span className="nav-arrow" onClick={handlePreviousDay} aria-label="Previous Day">&#8249;</span>
+            {/* Previous Day Arrow */}
+            <span className="nav-arrow" onClick={handlePreviousDay} aria-label="Previous Day">&#8249;</span>
+  
+            {/* Dates */}
             <div className="dates">
-            {dates.map((dateObj, index) => (
-              <div
-              key={index}
-              className={`date ${dateObj.isToday ? 'today' : ''}`}
-              onClick={() => handleDateClick(dateObj.formattedDate)} // click to fetch games for this date
-              >
-                <span className="day">{dateObj.isToday ? 'TODAY' : dateObj.dayName}</span>
-                <span className="date-number">{`${dateObj.monthName} ${dateObj.dateNumber}`}</span>
-              </div>
-            ))}
+              {dates.map((dateObj, index) => (
+                <div
+                  key={index}
+                  className={`date ${dateObj.isToday ? 'today' : ''}`}
+                  onClick={() => handleDateClick(dateObj.formattedDate)} // click to fetch games for this date
+                >
+                  <span className="day">{dateObj.isToday ? 'TODAY' : dateObj.dayName}</span>
+                  <span className="date-number">{`${dateObj.monthName} ${dateObj.dateNumber}`}</span>
+                </div>
+              ))}
             </div>
+  
+            {/* Next Day Arrow */}
             <span className="nav-arrow" onClick={handleNextDay}>&#8250;</span>
-            <span className="calendar-icon">&#128197;</span>
+  
+            {/* Calendar Icon */}
+            <span className="calendar-icon" role="img" aria-label="Calendar">&#128197;</span>
           </div>
         </div>
-
       </header>
-
+  
+      {/* Main content with events */}
       <main className="content">
         <div className="event-container">
+          {/* Error Message */}
           {errorMessage && <p>{errorMessage}</p>}
+  
+          {/* Display games if available */}
           {games.length > 0 ? (
             games.map((game, index) => (
               <div key={index} className="event-box">
+                <div className="game-header">
+                  <strong>{game.away_team} vs {game.home_team}</strong>
+                </div>
+  
+                {/* Game Time */}
                 <div className="game-time">Game Time: {new Date(game.game_time).toLocaleTimeString()}</div>
-                <div className="teams-info">
-                  <div className="team">
-                    <img src={`path_to_logo/${game.away_team}.png`} alt="away team logo" className="team-logo" />
-                    <p><strong>{game.away_team}</strong> {game.away_record}</p>
-                  </div>
-                  <div className="team">
-                    <img src={`path_to_logo/${game.home_team}.png`} alt="home team logo" className="team-logo" />
-                    <p><strong>{game.home_team}</strong> {game.home_record}</p>
-                  </div>
-                </div>
-                <p><em>Watch on: {game.broadcast_info}</em></p>
-                <div className="pitchers">
-                  <div>
-                    <strong>{game.away_pitcher.name}</strong> LHP<br />
-                    {game.away_pitcher.wins}-{game.away_pitcher.losses} | {game.away_pitcher.era} ERA
-                  </div>
-                  <div>
-                    <strong>{game.home_pitcher.name}</strong> RHP<br />
-                    {game.home_pitcher.wins}-{game.home_pitcher.losses} | {game.home_pitcher.era} ERA
-                  </div>
-                </div>
+  
+                {/* Game Links */}
                 <div className="game-links">
                   <a href="#">MLB.TV</a>
-                  <a href="#">Gameday</a>
-                  <a href="#">Tickets</a>
+                  <a href="#">Wrap</a>
+                  <a href="#">Box</a>
                   <a href="#">Story</a>
                 </div>
               </div>
@@ -152,7 +171,7 @@ function Homepage() {
         </div>
       </main>
     </div>
-  );
+  );  
 }
 
 export default Homepage;

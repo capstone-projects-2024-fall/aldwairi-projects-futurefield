@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 import statsapi
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # enable CORS for all routes
 
 @app.route('/')
 def hello_world():
@@ -31,8 +33,7 @@ def getGamesForDate():
                     'away_team': game['away_name'],
                     'home_team': game['home_name'],
                     'game_time': game['game_datetime'],
-                    'venue': game['venue_name'],
-                    'broadcast_info': game.get('broadcast') or 'No broadcast info available'
+                    'venue': game['venue_name']
                 })
 
             # Return the schedule in the response

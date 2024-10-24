@@ -154,30 +154,3 @@
 .team {
   text-align: center;
 }
-
-.team-logo {
-  max-width: 50px;
-  margin-bottom: 5px;
-}
-
-.pitchers {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.game-links {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 15px;
-}
-
-.game-links a {
-  text-decoration: none;
-  color: #007BFF;
-}
-
-.game-links a:hover {
-  text-decoration: underline;
-}
