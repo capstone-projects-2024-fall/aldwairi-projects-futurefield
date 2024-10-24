@@ -7,7 +7,6 @@ WORKDIR /usr/src/app
 # Copy the Python script to the container
 COPY train.py requirements.txt ./
 
-
 # Install any required Python packages (if applicable)
 RUN pip install -r ./requirements.txt
 

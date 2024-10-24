@@ -2,7 +2,7 @@ import duckdb
 import pandas as pd
 
 # Create a database file on disk
-conn = duckdb.connect('example.db')
+conn = duckdb.connect('baseball.db')
 # Enable remote access
 conn.sql("INSTALL httpfs")
 conn.sql("LOAD httpfs")
@@ -20,4 +20,4 @@ conn.sql("USE bc_remote")
 conn.sql("USE main_models")
 
 df: pd.DataFrame = conn.sql("SELECT * FROM metrics_player_season_league_pitching").df()
-df
+print(df)

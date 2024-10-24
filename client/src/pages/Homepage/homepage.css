@@ -1,0 +1,132 @@
+  .homepage {
+    font-family: 'Times New Roman', Times, serif;
+  }
+  
+  .logo {
+    max-width: 80px;
+    height: auto; 
+    margin-right: 15px;
+  }
+  
+  .homepage-header {
+    background-color: #002366; /* Navy blue */
+    max-height: 60px;
+    color: white;
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  .navbar ul {
+    list-style-type: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+    justify-content: flex-start; 
+  }
+  
+  .navbar ul li {
+    text-align: left; /* Align text inside list items to the left */
+  }
+  
+  .navbar ul li a {
+    font-size: 24px;
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .homepage-banner {
+    height: 100px;
+    color: white;
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+  .banner {
+    list-style-type: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+    justify-content: flex-start; 
+  }
+
+  .banner h2:first-child {
+    padding-left: 30px;
+    color: navy; /* Change Scores to navy */
+  }
+  
+  .banner h2:nth-child(2) {
+    color: grey; /* Change Schedule to grey */
+  }
+
+  .content {
+    padding: 20px;
+  }
+  
+  .calendar-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #888; /* Light grey text */
+  }
+  
+  .nav-arrow {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 10px;
+    color: #888; /* Light grey color */
+  }
+  
+  .dates {
+    display: flex;
+    gap: 20px; /* Spacing between dates */
+  }
+  
+  .date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .date .day {
+    font-size: 12px;
+    color: #888;
+  }
+  
+  .date .date-number {
+    font-size: 16px;
+    color: #888;
+  }
+  
+  .today .date-number {
+    font-weight: bold;
+    color: #000; /* Highlight today */
+  }
+  
+  .calendar-icon {
+    font-size: 24px;
+    padding-left: 10px;
+    cursor: pointer;
+    color: #4682B4; /* Blue color for calendar icon */
+  }  
+  
+  .event-box {
+    background-color: white;
+    padding: 20px;
+    width: 150px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+  }
+  
