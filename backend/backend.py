@@ -15,14 +15,14 @@ def get_current_time():
 
 @app.route('/api/date', methods=['POST'])
 def getGamesForDate():
-    # Retrieve the date from the frontend
+    # retrieve the date from the frontend
     date = request.json.get("date")
     
     if not date:
         return jsonify({'error': 'Date is required'}), 400
 
     try:
-        # Fetch the schedule from the statsapi using the selected date
+        # fetch the schedule from the statsapi using the selected date
         sched = statsapi.schedule(start_date=date, end_date=date, sportId=1)
 
         if sched:
@@ -37,7 +37,7 @@ def getGamesForDate():
                     'game_id': game['game_id']
                 })
 
-            # Return the schedule in the response
+            # return the schedule in the response
             return jsonify({'games': games}), 200
         else:
             return jsonify({'message': 'No games found for this date'}), 404

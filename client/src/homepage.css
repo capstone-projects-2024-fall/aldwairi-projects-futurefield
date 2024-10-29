@@ -31,13 +31,6 @@
   text-align: left; /* align text inside list items to the left */
 }
 
-.navbar ul li a {
-  font-size: 24px;
-  display: inline-block;
-  color: white;
-  text-decoration: none;
-}
-
 .navbar ul span {
   font-size: 24px;
   display: inline-block;

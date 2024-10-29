@@ -97,7 +97,9 @@ function Homepage() {
         <img src="/FutureFieldLogo.png" alt="Logo" className="logo" />
         <nav className="navbar">
           <ul>
-            <li><a href="#stats">Stats</a></li>
+            <span onClick={() => window.location.href = `/homepage`} className="homepage-button">
+              Stats
+            </span>
             <span onClick={() => window.location.href = `/seasonscores`} className="season-button">
               SeasonScores
             </span>
