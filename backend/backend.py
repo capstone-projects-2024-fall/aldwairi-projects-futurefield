@@ -33,7 +33,8 @@ def getGamesForDate():
                     'away_team': game['away_name'],
                     'home_team': game['home_name'],
                     'game_time': game['game_datetime'],
-                    'venue': game['venue_name']
+                    'venue': game['venue_name'],
+                    'game_id': game['game_id']
                 })
 
             # Return the schedule in the response

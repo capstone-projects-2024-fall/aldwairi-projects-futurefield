@@ -18,10 +18,10 @@ function Homepage() {
   
     for (let i = 0; i < 7; i++) {
       const day = new Date(startDate);
-      day.setDate(startDate.getDate() + i); // Increment the day
+      day.setDate(startDate.getDate() + i); // increment the day
   
-      // Format the date in MM/DD/YYYY format manually
-      const month = String(day.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+      // format the date in MM/DD/YYYY format manually
+      const month = String(day.getMonth() + 1).padStart(2, '0'); 
       const dayNumber = String(day.getDate()).padStart(2, '0');
       const year = day.getFullYear();
       const formattedDate = `${month}/${dayNumber}/${year}`;  // MM/DD/YYYY format
@@ -29,13 +29,13 @@ function Homepage() {
       weekDates.push({
         dayName: daysOfWeek[day.getDay()],
         dateNumber: day.getDate(),
-        isToday: day.toDateString() === new Date().toDateString(), // Check if it's today
+        isToday: day.toDateString() === new Date().toDateString(), // check if it's today
         monthName: day.toLocaleString('default', { month: 'short' }),
-        formattedDate  // Pass the formatted date
+        formattedDate  // pass the formatted date
       });
     }
   
-    setDates(weekDates);  // Set the generated dates into state
+    setDates(weekDates);  // set the generated dates into state
   };
 
 
@@ -54,31 +54,31 @@ function Homepage() {
   };
 
   const handleDateClick = (selectedDate) => {
-    console.log("Raw Selected Date:", selectedDate);  // Log the raw selected date
+    console.log("Raw Selected Date:", selectedDate);  // log the raw selected date
   
     setErrorMessage(null);
-    setGames([]); // Clear previous games
+    setGames([]); // clear previous games
   
-    // Make sure selectedDate is valid before formatting
+    // make sure selectedDate is valid before formatting
     const formattedDate = new Date(selectedDate).toLocaleDateString('en-US', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit'
     });
   
-    console.log("Formatted Date:", formattedDate);  // Log the formatted date for debugging
+    console.log("Formatted Date:", formattedDate);  // log the formatted date for debugging
   
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ date: formattedDate })  // Send the formatted date
+      body: JSON.stringify({ date: formattedDate })  // send the formatted date
     };
   
     fetch('http://127.0.0.1:5000/api/date', requestOptions)
       .then(response => response.json())
       .then(data => {
         if (data.games) {
-          setGames(data.games);  // Store the games in state
+          setGames(data.games);  // store the games in state
         } else {
           setErrorMessage(data.message || "No games found.");
         }
@@ -98,7 +98,9 @@ function Homepage() {
         <nav className="navbar">
           <ul>
             <li><a href="#stats">Stats</a></li>
-            <li><a href="#seasonscores">Season Scores</a></li>
+            <span onClick={() => window.location.href = `/seasonscores`} className="season-button">
+              SeasonScores
+            </span>
           </ul>
         </nav>
       </header>
@@ -140,62 +142,63 @@ function Homepage() {
       </header>
   
       {/* Main content with events */}
-    <main className="content">
-      <div className="event-container">
-        {errorMessage && <p>{errorMessage}</p>}
+      <main className="content">
+        <div className="event-container">
+          {errorMessage && <p>{errorMessage}</p>}
 
-        {games.length > 0 ? (
-          games.map((game, index) => {
-            const currentTime = new Date();
-            const gameTime = new Date(game.game_time);
+          {games.length > 0 && (
+            games.map((game, index) => {
+              const currentTime = new Date();
+              const gameTime = new Date(game.game_time);
 
-            // Check if the game is upcoming or past
-            const isUpcoming = gameTime > currentTime;
+              // check if the game is upcoming or past
+              const isUpcoming = gameTime > currentTime;
 
-            const formattedGameTime = gameTime.toLocaleTimeString('en-US', {
-              hour: 'numeric',
-              minute: 'numeric',
-              hour12: true
-            });
+              const formattedGameTime = gameTime.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+              });
 
-            return (
-              <div key={index} className="event-box">
-                <div className="game-header">
-                  <strong>{game.away_team} vs {game.home_team}</strong>
+              return (
+                <div key={index} className="event-box">
+                  <div className="game-header">
+                    <strong>{game.away_team} vs {game.home_team}</strong>
+                  </div>
+
+                  {isUpcoming ? (
+                    // information for upcoming games
+                    <div className="upcoming-game">
+                      <div className="game-time">Game Time: {formattedGameTime}</div>
+                      <p>Location: {game.venue}</p>
+                    </div>
+                  ) : (
+                    // information for past games
+                    <div className="past-game">
+                      <div className="game-score">Final Score: {game.away_team} {game.away_score} - {game.home_team} {game.home_score}</div>
+                      <div className="game-time">Game time: {formattedGameTime}</div>
+                      <div className="game-summary">
+                        <p>Summary: {game.summary}</p>
+                      </div>
+                      <div className="game-links">
+                        <a href="#">Watch Highlights</a>
+                        <a href="#">Box Score</a>
+                        <a href="#">Story</a>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Navy button for "Details" */}
+                  <div className="game-details-button">
+                    <button onClick={() => window.location.href = `/game-details/${game.game_id}`} className="details-button">
+                      Details
+                    </button>
+                  </div>
                 </div>
-
-                {isUpcoming ? (
-                  // Information for upcoming games
-                  <div className="upcoming-game">
-                    <div className="game-time">Game Time: {gameTime.toLocaleTimeString()}</div>
-                    <p>Location: {game.location}</p>
-                    <div className="game-links">
-                      <a href="#">Buy Tickets</a>
-                      <a href="#">MLB.TV</a>
-                    </div>
-                  </div>
-                ) : (
-                  // Information for past games
-                  <div className="past-game">
-                    <div className="game-score">Final Score: {game.away_team} {game.away_score} - {game.home_team} {game.home_score}</div>
-                    <div className="game-time">Game time: {formattedGameTime}</div>
-                    <div className="game-summary">
-                      <p>Summary: {game.summary}</p>
-                    </div>
-                    <div className="game-links">
-                      <a href="#">Watch Highlights</a>
-                      <a href="#">Box Score</a>
-                      <a href="#">Story</a>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })
-        ) : (
-          <p>No games to display. Please select a date.</p>
-        )}
-      </div>
+              );
+            })
+          )}
+        </div>
     </main>
     </div>
   );  
