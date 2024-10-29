@@ -123,6 +123,7 @@
 .event-container {
   display: flex;
   justify-content: space-around; /* space between the event boxes */
+  gap: 20px;
   padding: 20px;
   background-color: #f8f9fa;
 }

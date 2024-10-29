@@ -37,7 +37,7 @@ function Homepage() {
   
     setDates(weekDates);  // Set the generated dates into state
   };
-    
+
 
   // function to handle moving to the next day
   const handleNextDay = () => {
@@ -140,36 +140,63 @@ function Homepage() {
       </header>
   
       {/* Main content with events */}
-      <main className="content">
-        <div className="event-container">
-          {/* Error Message */}
-          {errorMessage && <p>{errorMessage}</p>}
-  
-          {/* Display games if available */}
-          {games.length > 0 ? (
-            games.map((game, index) => (
+    <main className="content">
+      <div className="event-container">
+        {errorMessage && <p>{errorMessage}</p>}
+
+        {games.length > 0 ? (
+          games.map((game, index) => {
+            const currentTime = new Date();
+            const gameTime = new Date(game.game_time);
+
+            // Check if the game is upcoming or past
+            const isUpcoming = gameTime > currentTime;
+
+            const formattedGameTime = gameTime.toLocaleTimeString('en-US', {
+              hour: 'numeric',
+              minute: 'numeric',
+              hour12: true
+            });
+
+            return (
               <div key={index} className="event-box">
                 <div className="game-header">
                   <strong>{game.away_team} vs {game.home_team}</strong>
                 </div>
-  
-                {/* Game Time */}
-                <div className="game-time">Game Time: {new Date(game.game_time).toLocaleTimeString()}</div>
-  
-                {/* Game Links */}
-                <div className="game-links">
-                  <a href="#">MLB.TV</a>
-                  <a href="#">Wrap</a>
-                  <a href="#">Box</a>
-                  <a href="#">Story</a>
-                </div>
+
+                {isUpcoming ? (
+                  // Information for upcoming games
+                  <div className="upcoming-game">
+                    <div className="game-time">Game Time: {gameTime.toLocaleTimeString()}</div>
+                    <p>Location: {game.location}</p>
+                    <div className="game-links">
+                      <a href="#">Buy Tickets</a>
+                      <a href="#">MLB.TV</a>
+                    </div>
+                  </div>
+                ) : (
+                  // Information for past games
+                  <div className="past-game">
+                    <div className="game-score">Final Score: {game.away_team} {game.away_score} - {game.home_team} {game.home_score}</div>
+                    <div className="game-time">Game time: {formattedGameTime}</div>
+                    <div className="game-summary">
+                      <p>Summary: {game.summary}</p>
+                    </div>
+                    <div className="game-links">
+                      <a href="#">Watch Highlights</a>
+                      <a href="#">Box Score</a>
+                      <a href="#">Story</a>
+                    </div>
+                  </div>
+                )}
               </div>
-            ))
-          ) : (
-            <p>No games to display. Please select a date.</p>
-          )}
-        </div>
-      </main>
+            );
+          })
+        ) : (
+          <p>No games to display. Please select a date.</p>
+        )}
+      </div>
+    </main>
     </div>
   );  
 }
