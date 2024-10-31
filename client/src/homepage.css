@@ -130,13 +130,32 @@
 
 .event-box {
   background-color: white;
-  padding: 20px;
   width: 400px;
   height: 300px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* adds a subtle shadow */
+  box-sizing: border-box;
+}
+
+.event-box .box-banner {
+  width: 100%;
+  height: 30px;
+  background-color: navy;
+  color: white;
+  padding-left: 10px;
+  border-radius: 5px 5px 0 0;
+  font-size: 10px;
+  box-sizing: border-box; 
+  display: flex;
+  align-items: center;
+}
+
+.event-box .game-header{
+  margin-top: 20px;
+  font-size: 20px;
 }
 
 .game-time {

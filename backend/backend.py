@@ -31,7 +31,9 @@ def getGamesForDate():
 
                 games.append({
                     'away_team': game['away_name'],
+                    'away_score': game['away_score'],
                     'home_team': game['home_name'],
+                    'home_score': game['home_score'],
                     'game_time': game['game_datetime'],
                     'venue': game['venue_name'],
                     'game_id': game['game_id']

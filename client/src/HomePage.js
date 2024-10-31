@@ -9,6 +9,14 @@ function Homepage() {
 
   useEffect(() => {
     generateWeekDates(currentStartDate);
+
+    // automatically fetch today's games on page load
+    const today = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',   
+      day: '2-digit'
+    });
+    handleDateClick(today);
   }, [currentStartDate]);
 
   // function to generate the next 7 days starting from the given date
@@ -87,8 +95,35 @@ function Homepage() {
         setErrorMessage("Error fetching games. Please try again.");
         console.error("Error fetching games:", error);
       });
+
+      const [boxscore, setBoxscore] = useState(null);
+      const [error, setError] = useState(null);
+    
+      useEffect(() => {
+        // fetch boxscore data for a given game
+        fetch('http://127.0.0.1:5000/api/boxscore', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ game_id: gameId }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.boxscore) {
+              setBoxscore(data.boxscore);
+            } else {
+              setError(data.error || 'Failed to fetch boxscore');
+            }
+          })
+          .catch((error) => setError('Failed to fetch boxscore'));
+      }, [gameId]);
+    
+      if (error) return <p>{error}</p>;
+      if (!boxscore) return <p>Loading...</p>;
+    
+      // parse boxscore data for rendering
+      const { away, home } = boxscore;
   };
-  
+   
 
   return (
     <div className="homepage">
@@ -164,6 +199,10 @@ function Homepage() {
 
               return (
                 <div key={index} className="event-box">
+                  <div className="box-banner">
+                      <h2>Game Time: {formattedGameTime}</h2>
+                      <h2>{game.team_name} wins</h2>
+                  </div>
                   <div className="game-header">
                     <strong>{game.away_team} vs {game.home_team}</strong>
                   </div>
@@ -171,21 +210,14 @@ function Homepage() {
                   {isUpcoming ? (
                     // information for upcoming games
                     <div className="upcoming-game">
-                      <div className="game-time">Game Time: {formattedGameTime}</div>
                       <p>Location: {game.venue}</p>
                     </div>
                   ) : (
                     // information for past games
                     <div className="past-game">
-                      <div className="game-score">Final Score: {game.away_team} {game.away_score} - {game.home_team} {game.home_score}</div>
-                      <div className="game-time">Game time: {formattedGameTime}</div>
+                      <div className="game-score">Final Score: {game.away_score} vs {game.home_score}</div>
                       <div className="game-summary">
                         <p>Summary: {game.summary}</p>
-                      </div>
-                      <div className="game-links">
-                        <a href="#">Watch Highlights</a>
-                        <a href="#">Box Score</a>
-                        <a href="#">Story</a>
                       </div>
                     </div>
                   )}
