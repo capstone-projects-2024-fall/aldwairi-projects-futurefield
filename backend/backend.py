@@ -36,7 +36,10 @@ def getGamesForDate():
                     'home_score': game['home_score'],
                     'game_time': game['game_datetime'],
                     'venue': game['venue_name'],
-                    'game_id': game['game_id']
+                    'game_id': game['game_id'],
+                    'winning_pitcher': game['winning_pitcher'],
+                    'losing_pitcher': game['losing_pitcher'],
+                    'save_pitcher': game['save_pitcher'],
                 })
 
             # return the schedule in the response

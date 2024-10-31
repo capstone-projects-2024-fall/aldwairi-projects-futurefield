@@ -95,33 +95,6 @@ function Homepage() {
         setErrorMessage("Error fetching games. Please try again.");
         console.error("Error fetching games:", error);
       });
-
-      const [boxscore, setBoxscore] = useState(null);
-      const [error, setError] = useState(null);
-    
-      useEffect(() => {
-        // fetch boxscore data for a given game
-        fetch('http://127.0.0.1:5000/api/boxscore', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ game_id: gameId }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.boxscore) {
-              setBoxscore(data.boxscore);
-            } else {
-              setError(data.error || 'Failed to fetch boxscore');
-            }
-          })
-          .catch((error) => setError('Failed to fetch boxscore'));
-      }, [gameId]);
-    
-      if (error) return <p>{error}</p>;
-      if (!boxscore) return <p>Loading...</p>;
-    
-      // parse boxscore data for rendering
-      const { away, home } = boxscore;
   };
    
 
@@ -190,6 +163,8 @@ function Homepage() {
 
               // check if the game is upcoming or past
               const isUpcoming = gameTime > currentTime;
+              const winningTeam = game.away_score > game.home_score ? game.away_team : game.home_team;
+              const finalScore = `${game.away_score} - ${game.home_score}`;
 
               const formattedGameTime = gameTime.toLocaleTimeString('en-US', {
                 hour: 'numeric',
@@ -200,24 +175,39 @@ function Homepage() {
               return (
                 <div key={index} className="event-box">
                   <div className="box-banner">
-                      <h2>Game Time: {formattedGameTime}</h2>
-                      <h2>{game.team_name} wins</h2>
+                    <p>World Series </p>
+                    <p>{winningTeam} wins {finalScore}</p>
                   </div>
-                  <div className="game-header">
-                    <strong>{game.away_team} vs {game.home_team}</strong>
-                  </div>
+
 
                   {isUpcoming ? (
                     // information for upcoming games
                     <div className="upcoming-game">
+                      <div className="game-header">
+                        <div>
+                          <strong>{game.away_team}</strong>
+                        </div>
+                        <div>
+                          <strong>{game.home_team}</strong>
+                        </div>
+                      </div>
                       <p>Location: {game.venue}</p>
                     </div>
                   ) : (
                     // information for past games
-                    <div className="past-game">
-                      <div className="game-score">Final Score: {game.away_score} vs {game.home_score}</div>
-                      <div className="game-summary">
-                        <p>Summary: {game.summary}</p>
+                    <div className="game-header">
+                      <div className="team">
+                        <strong>{game.away_team}</strong>
+                        <p className="score">{game.away_score} - {game.home_score}</p>
+                      </div>
+                      <div className="team">
+                        <strong>{game.home_team}</strong>
+                        <p className="score">{game.home_score} - {game.away_score}</p>
+                      </div>
+                      <div className="pitcher-header">
+                        <div>W: {game.winning_pitcher}</div>
+                        <div>L: {game.losing_pitcher}</div>
+                        <div>S: {game.save_pitcher}</div>
                       </div>
                     </div>
                   )}
