@@ -50,6 +50,35 @@ def getGamesForDate():
     except Exception as e:
         print(f"Error fetching schedule: {e}")
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/api/game-details', methods=['POST'])
+def get_game_details():
+    data = request.get_json()
+    game_id = data.get('game_id')
+
+    if not game_id:
+        return jsonify({'error': 'Game ID is required'}), 400
+
+    try:
+        # Use statsapi.schedule with the game_id to get game details
+        game_details = statsapi.schedule(game_id=game_id)
+        
+        if game_details:
+            game = game_details[0]  # Since schedule returns a list
+            return jsonify({
+                'game_datetime': game.get('game_datetime'),
+                'game_date': game.get('game_date'),
+                'away_team': game.get('away_name'),
+                'home_team': game.get('home_name'),
+                'away_score': game.get('away_score'),
+                'home_score': game.get('home_score'),
+                'venue': game.get('venue_name'),
+                'status': game.get('status'),
+            })
+        else:
+            return jsonify({'error': 'Game not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

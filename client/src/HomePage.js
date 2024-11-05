@@ -205,9 +205,9 @@ function Homepage() {
                         <p className="score">{game.home_score} - {game.away_score}</p>
                       </div>
                       <div className="pitcher-header">
-                        <div>W: {game.winning_pitcher}</div>
-                        <div>L: {game.losing_pitcher}</div>
-                        <div>S: {game.save_pitcher}</div>
+                        <div>W: {game.winning_pitcher || "N/A"}</div>
+                        <div>L: {game.losing_pitcher || "N/A"}</div>
+                        <div>S: {game.save_pitcher || "N/A"}</div>
                       </div>
                     </div>
                   )}
