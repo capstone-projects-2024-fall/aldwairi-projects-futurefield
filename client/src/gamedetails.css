@@ -1,6 +1,6 @@
 .game-details {
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: white;
     border-radius: 8px;
     font-family: Arial, sans-serif;
   }
@@ -8,14 +8,17 @@
   .game-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
     font-size: 18px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
+    width: 100%;
   }
   
   .team {
-    text-align: center;
+    display: flex;
+    align-items: center;
   }
   
   .score {
@@ -41,3 +44,7 @@
     color: #555;
   }
   
+  .team-logo {
+    width: 40px;
+    height: auto;
+  }

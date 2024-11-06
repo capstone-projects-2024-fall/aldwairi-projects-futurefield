@@ -53,15 +53,20 @@ function GameDetails() {
     <div className="game-details">
       <div className="game-header">
         <div className="team">
-        <img
-        src={`/logos/${gameDetails.away_team.replace(/\s/g, "_")}.png`}
-        alt={`${gameDetails.away_team} logo`}
-        className="team-logo"
-        />
-        <strong>{gameDetails.away_team}</strong>
-        <p className="score">{gameDetails.away_score}</p>
+            <img
+            src={`/logos/${gameDetails.away_team.replace(/\s/g, "_")}.png`}
+            alt={`${gameDetails.away_team} logo`}
+            className="team-logo"
+            />
+            <strong>{gameDetails.away_team}</strong>
+            <p className="score">{gameDetails.away_score}</p>
         </div>
         <div className="team">
+            <img
+            src={`/logos/${gameDetails.home_team.replace(/\s/g, "_")}.png`}
+            alt={`${gameDetails.home_team} logo`}
+            className="team-logo"
+            />
           <strong>{gameDetails.home_team}</strong>
           <p className="score">{gameDetails.home_score}</p>
         </div>
