@@ -1,6 +1,8 @@
 import pandas as pd
 import requests
 
+# 'OBP_162_h', 'OBP_162_v', 'SLG_162_h', 'SLG_162_v'
+
 def get_player_stats_by_name(name, season, stat_type='hitting'):
     # Search for the player by name
     lookup_url = f"https://statsapi.mlb.com/api/v1/people/search?names={name}"
@@ -28,5 +30,7 @@ def get_player_stats_by_name(name, season, stat_type='hitting'):
         # Get the splits data which holds a season's stats
         season_stats = stats_data[0]['splits']
         return { "name": player_name, "season": season, "stat_type": stat_type, "stats": season_stats }
+    
+
    
 print(get_player_stats_by_name("Bryce Harper", "2024", "fielding"))
