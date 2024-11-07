@@ -2,7 +2,7 @@ import pandas as pd
 import requests
 
 
-def getPlayerStats(name, season, stat_type='hitting'):
+def getPlayerStats(name, season, stat_type):
     # Search for the player by name
     lookup_url = f"https://statsapi.mlb.com/api/v1/people/search?names={name}"
     response = requests.get(lookup_url)
@@ -120,3 +120,4 @@ print('\n')
 print(getTeam_OBP("Los Angeles Angels", "2023"))
 print('\n')
 print(getTeamSLG("Los Angeles Angels", "2023"))
+print('\n')
