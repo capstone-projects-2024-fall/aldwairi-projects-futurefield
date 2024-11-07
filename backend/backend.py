@@ -9,10 +9,12 @@ CORS(app)  # enable CORS for all routes
 def hello_world():
     return "<p>Hello, World!</p>"
 
+# Gets the current time of day and displays it
 @app.route('/api/time', methods=['GET'])
 def get_current_time():
     return {'time': time.time()}
 
+# Gets the current day of the year
 @app.route('/api/date', methods=['POST'])
 def getGamesForDate():
     # retrieve the date from the frontend

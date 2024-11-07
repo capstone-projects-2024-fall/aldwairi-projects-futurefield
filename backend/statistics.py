@@ -2,7 +2,7 @@ import pandas as pd
 import requests
 
 
-def getPlayerStats(name, season, stat_type='hitting'):
+def getPlayerStats(name, season, stat_type):
     # Search for the player by name
     lookup_url = f"https://statsapi.mlb.com/api/v1/people/search?names={name}"
     response = requests.get(lookup_url)
@@ -73,7 +73,7 @@ def getTeam_OBP(team_name, season):
         return f"No OBP stats available for {team_name} in {season}."
 
 
-def getTeamSLG(team_name, season):
+def getTeam_SLG(team_name, season):
     # Get team ID by searching for the team by name
     lookup_url = "https://statsapi.mlb.com/api/v1/teams?sportId=1"
     response = requests.get(lookup_url)
@@ -115,8 +115,10 @@ def getTeamSLG(team_name, season):
 
 
 # Tests
+print('\n')
 print(getPlayerStats("Bryce Harper", "2024", "fielding"))
 print('\n')
 print(getTeam_OBP("Los Angeles Angels", "2023"))
 print('\n')
-print(getTeamSLG("Los Angeles Angels", "2023"))
+print(getTeam_SLG("Los Angeles Angels", "2023"))
+print('\n')
