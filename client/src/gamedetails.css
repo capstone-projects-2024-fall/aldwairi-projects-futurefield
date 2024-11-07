@@ -42,12 +42,12 @@
   margin-left: 10px;
 }
 
-.game-info {
+.game-loca {
   text-align: center;
   font-size: 16px;
-  margin: 0 20px; /* Adds space between the date/time and teams */
-  flex: 1; /* Ensures the date/time stays centered */
-  white-space: nowrap; /* Prevents line wrapping */
+  margin: 0 20px; 
+  flex: 1; 
+  white-space: nowrap; 
 }
 
 .venue-info, .status-info {
@@ -62,6 +62,114 @@
 }
 
 .status-info {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Tabs */
+.game-details2 {
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+.tabs {
+  display: flex;
+  margin-top: 20px;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  border: none;
+  background-color: #eee;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.tabs button.active {
+  background-color: #333;
+  color: #fff;
+}
+
+.moneyline-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.team-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-info .team-logo {
+  width: 50px;
+  height: auto;
+}
+
+.team-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.bet-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.bet-odds {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.bet-provider {
+  font-weight: bold;
+  color: #888;
+}
+
+.moneyline-center {
+  text-align: center;
+  width: 100px;
+}
+
+.win-bar {
+  display: flex;
+  height: 10px;
+  background-color: #ccc;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.away-bar {
+  background-color: #4caf50;
+}
+
+.home-bar {
+  background-color: #f44336;
+}
+
+/* Weather Information */
+.weather-info {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.weather-info h4 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.weather-info p {
   font-size: 14px;
   color: #555;
 }

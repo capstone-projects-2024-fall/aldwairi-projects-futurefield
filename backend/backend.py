@@ -79,6 +79,32 @@ def get_game_details():
             return jsonify({'error': 'Game not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/api/game-prediction', methods=['POST'])
+def get_game_prediction():
+    data = request.get_json()
+    game_id = data.get('game_id')
+    if not game_id:
+        return jsonify({'error': 'Game ID is required'}), 400
+
+    try:
+        # simulated prediction data for demonstration purposes
+        prediction_data = {
+            'away_win_probability': 54,  
+            'home_win_probability': 46, 
+            'away_odds': '-115',  
+            'home_odds': '+100',  
+            'away_pitcher': 'Blake Snell',
+            'home_pitcher': 'Albert Suárez',
+            'away_pitcher_record': '3-3, 3.52 ERA',
+            'home_pitcher_record': '8-5, 3.39 ERA',
+            'weather_last_updated': 'Sep 17, 7:33AM',
+            'weather_forecast': 'Clear skies, 72°F'
+        }
+        return jsonify(prediction_data), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

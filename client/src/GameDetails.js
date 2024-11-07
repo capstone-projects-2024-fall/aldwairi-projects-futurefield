@@ -3,39 +3,33 @@ import { useParams } from 'react-router-dom';
 import './gamedetails.css';
 
 function GameDetails() {
-  const { gameId } = useParams(); // Get game_id from the URL
+  const { gameId } = useParams();
   const [gameDetails, setGameDetails] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [prediction, setPrediction] = useState(null);
+  const [selectedTab, setSelectedTab] = useState('Moneyline');
 
   useEffect(() => {
-    // Fetch game details from the backend
-    fetch('http://127.0.0.1:5000/api/game-details', {
+    // Fetch game details and prediction data from the backend
+    fetch(`http://127.0.0.1:5000/api/game-details`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ game_id: gameId }),
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Game details not found');
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.error) {
-          setErrorMessage(data.error);
-        } else {
-          setGameDetails(data);
-        }
-      })
-      .catch(error => {
-        setErrorMessage(error.message || "Error fetching game details.");
-        console.error("Error fetching game details:", error);
-      });
+      .then(response => response.json())
+      .then(data => setGameDetails(data))
+      .catch(error => console.error("Error fetching game details:", error));
+
+    fetch(`http://127.0.0.1:5000/api/game-prediction`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ game_id: gameId }),
+    })
+      .then(response => response.json())
+      .then(data => setPrediction(data))
+      .catch(error => console.error("Error fetching prediction:", error));
   }, [gameId]);
 
-  if (errorMessage) return <p>{errorMessage}</p>;
-  if (!gameDetails) return <p>Loading...</p>;
-
+  if (!gameDetails || !prediction) return <p>Loading...</p>;
   const formattedGameDateTime = `${new Date(gameDetails.game_datetime).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -46,31 +40,27 @@ function GameDetails() {
     hour12: true
   })} EDT`;
 
-  console.log(gameDetails.away_team)
-
   return (
-    <div className="game-details">
+    <><div className="game-details">
       <div className="game-header">
         <div className="team">
-            <img
+          <img
             src={`/logos/${gameDetails.away_team.replace(/\s/g, "_")}.png`}
             alt={`${gameDetails.away_team} logo`}
-            className="team-logo"
-            />
-            <strong>{gameDetails.away_team}</strong>
-            <p className="score">{gameDetails.away_score}</p>
+            className="team-logo" />
+          <strong>{gameDetails.away_team}</strong>
+          <p className="score">{gameDetails.away_score}</p>
         </div>
-        
-        <div className="game-info">
+
+        <div className="game-loca">
           <p>{formattedGameDateTime}</p>
         </div>
 
         <div className="team">
-            <img
+          <img
             src={`/logos/${gameDetails.home_team.replace(/\s/g, "_")}.png`}
             alt={`${gameDetails.home_team} logo`}
-            className="team-logo"
-            />
+            className="team-logo" />
           <strong>{gameDetails.home_team}</strong>
           <p className="score">{gameDetails.home_score}</p>
         </div>
@@ -79,13 +69,85 @@ function GameDetails() {
       <div className="venue-info">
         <p>{gameDetails.venue}</p>
       </div>
-
       <div className="status-info">
-        <p>Status: {gameDetails.status}</p>
+          <p>Status: {gameDetails.status}</p>
       </div>
     </div>
+    <div className="game-details2">
+      <h2>Game Statistics</h2>
+        <div className="tabs">
+          <button
+            onClick={() => setSelectedTab('current_score')}
+            className={selectedTab === 'Moneyline' ? 'active' : ''}
+          >
+            Current Score
+          </button>
+          <button
+            onClick={() => setSelectedTab('Over/Under')}
+            className={selectedTab === 'Over/Under' ? 'active' : ''}
+          >
+            Predictions
+          </button>
+        </div>
+
+        {selectedTab === 'current_score' && (
+          <div className="moneyline-container">
+            <div className="team-info">
+              <img src={`/logos/${gameDetails.away_team.replace(/\s/g, "_")}.png`} alt={`${gameDetails.away_team} logo`} className="team-logo" />
+              <div className="team-details">
+                <h3>{gameDetails.away_team}</h3>
+                <p>Win Probability: {prediction.away_win_probability}%</p>
+                <div className="bet-info">
+                  <span className="bet-odds">{prediction.away_odds}</span>
+                  <span className="bet-provider">bet365</span>
+                </div>
+                <p>{prediction.away_pitcher} ({prediction.away_pitcher_record})</p>
+              </div>
+            </div>
+
+            <div className="moneyline-center">
+              <p>Moneyline</p>
+              <div className="win-bar">
+                <div className="away-bar" style={{ width: `${prediction.away_win_probability}%` }}></div>
+                <div className="home-bar" style={{ width: `${prediction.home_win_probability}%` }}></div>
+              </div>
+            </div>
+
+            <div className="team-info">
+              <img src={`/logos/${gameDetails.home_team.replace(/\s/g, "_")}.png`} alt={`${gameDetails.home_team} logo`} className="team-logo" />
+              <div className="team-details">
+                <h3>{gameDetails.home_team}</h3>
+                <p>Win Probability: {prediction.home_win_probability}%</p>
+                <div className="bet-info">
+                  <span className="bet-odds">{prediction.home_odds}</span>
+                  <span className="bet-provider">BETMGM</span>
+                </div>
+                <p>{prediction.home_pitcher} ({prediction.home_pitcher_record})</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedTab === 'Over/Under' && (
+          <div className="over-under-container">
+            {/* Over/Under content */}
+            <p>Over/Under information will be displayed here.</p>
+          </div>
+        )}
+
+        {selectedTab === 'Run Line' && (
+          <div className="run-line-container">
+            <p>Run Line information will be displayed here.</p>
+          </div>
+        )}
+
+        <div className="weather-info">
+          <h4>Weather Forecast</h4>
+          <p>Last Updated: {prediction.weather_last_updated}</p>
+          <p>{prediction.weather_forecast}</p>
+        </div>
+      </div></>
   );
 }
 
 export default GameDetails;
-

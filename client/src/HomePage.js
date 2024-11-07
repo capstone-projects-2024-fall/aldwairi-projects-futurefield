@@ -166,12 +166,6 @@ function Homepage() {
               const winningTeam = game.away_score > game.home_score ? game.away_team : game.home_team;
               const finalScore = `${game.away_score} - ${game.home_score}`;
 
-              const formattedGameTime = gameTime.toLocaleTimeString('en-US', {
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: true
-              });
-
               return (
                 <div key={index} className="event-box">
                   <div className="box-banner">
