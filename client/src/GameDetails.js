@@ -36,16 +36,15 @@ function GameDetails() {
   if (errorMessage) return <p>{errorMessage}</p>;
   if (!gameDetails) return <p>Loading...</p>;
 
-  const formattedGameDate = new Date(gameDetails.game_datetime).toLocaleDateString('en-US', {
+  const formattedGameDateTime = `${new Date(gameDetails.game_datetime).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
-  });
-  const formattedGameTime = new Date(gameDetails.game_datetime).toLocaleTimeString('en-US', {
+  })} at ${new Date(gameDetails.game_datetime).toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: 'numeric',
     hour12: true
-  });
+  })} EDT`;
 
   console.log(gameDetails.away_team)
 
@@ -61,6 +60,11 @@ function GameDetails() {
             <strong>{gameDetails.away_team}</strong>
             <p className="score">{gameDetails.away_score}</p>
         </div>
+        
+        <div className="game-info">
+          <p>{formattedGameDateTime}</p>
+        </div>
+
         <div className="team">
             <img
             src={`/logos/${gameDetails.home_team.replace(/\s/g, "_")}.png`}
@@ -70,11 +74,6 @@ function GameDetails() {
           <strong>{gameDetails.home_team}</strong>
           <p className="score">{gameDetails.home_score}</p>
         </div>
-      </div>
-
-      <div className="game-info">
-        <p>{formattedGameDate}</p>
-        <p>{formattedGameTime} EDT</p>
       </div>
 
       <div className="venue-info">

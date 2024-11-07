@@ -192,6 +192,7 @@ function Homepage() {
                         </div>
                       </div>
                       <p>Location: {game.venue}</p>
+                      <p>Time: {game.formattedGameTime}</p>
                     </div>
                   ) : (
                     // information for past games
