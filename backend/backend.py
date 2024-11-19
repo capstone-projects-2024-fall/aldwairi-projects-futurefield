@@ -14,7 +14,7 @@ def get_current_time():
     return {'time': time.time()}
 
 @app.route('/api/date', methods=['POST'])
-def getGamesForDate():
+def get_games_for_date():
     # retrieve the date from the frontend
     date = request.json.get("date")
     

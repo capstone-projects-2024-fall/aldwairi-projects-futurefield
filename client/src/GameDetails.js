@@ -83,14 +83,14 @@ function GameDetails() {
             Current Score
           </button>
           <button
-            onClick={() => setSelectedTab('Over/Under')}
+            onClick={() => setSelectedTab('predictions')}
             className={selectedTab === 'Over/Under' ? 'active' : ''}
           >
             Predictions
           </button>
         </div>
 
-        {selectedTab === 'current_score' && (
+        {selectedTab === 'predictions' && (
           <div className="moneyline-container">
             <div className="team-info">
               <img src={`/logos/${gameDetails.away_team.replace(/\s/g, "_")}.png`} alt={`${gameDetails.away_team} logo`} className="team-logo" />
@@ -128,10 +128,9 @@ function GameDetails() {
           </div>
         )}
 
-        {selectedTab === 'Over/Under' && (
-          <div className="over-under-container">
-            {/* Over/Under content */}
-            <p>Over/Under information will be displayed here.</p>
+        {selectedTab === 'current_score' && (
+          <div className="score-container">
+            <p></p>
           </div>
         )}
 

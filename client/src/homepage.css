@@ -163,12 +163,20 @@
   border: none;
 }
 
-.team {
+.team1 {
   display: flex;
   align-items: center; 
   padding-left: 20px;
-  gap: 10px;
   width: 100%;
+  gap: 10px;  
+}
+
+.team2 {
+  display: flex;
+  align-items: center; 
+  padding-left: 20px;
+  width: 100%;
+  gap: 10px;  
 }
 
 .score {
@@ -179,17 +187,6 @@
 .game-time {
   font-weight: bold;
   margin-bottom: 10px;
-}
-
-.teams-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.team {
-  text-align: center;
 }
 
 .pitcher-header { 
@@ -216,4 +213,25 @@
 
 .details-button:hover {
   background-color: #004080; /* slightly lighter navy on hover */
+}
+
+.mock-games-button-container {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.mock-games-button {
+  background-color: navy;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.mock-games-button:hover {
+  background-color: #0056b3;
 }
