@@ -1,6 +1,4 @@
-import pandas as pd
 import requests
-
 
 def getPlayerStats(name, season, stat_type):
     # Search for the player by name
@@ -115,10 +113,10 @@ def getTeam_SLG(team_name, season):
 
 
 # Tests
-print('\n')
-print(getPlayerStats("Bryce Harper", "2024", "fielding"))
-print('\n')
-print(getTeam_OBP("Los Angeles Angels", "2023"))
-print('\n')
-print(getTeam_SLG("Los Angeles Angels", "2023"))
-print('\n')
+# print('\n')
+# print(getPlayerStats("Bryce Harper", "2024", "fielding"))
+# print('\n')
+# print(getTeam_OBP("Los Angeles Angels", "2023"))
+# print('\n')
+# print(getTeam_SLG("Los Angeles Angels", "2023"))
+# print('\n')
