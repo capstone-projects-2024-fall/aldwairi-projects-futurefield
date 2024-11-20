@@ -1,27 +1,15 @@
-import pickle
 import joblib
 import pandas as pd
 from MLB_Statistics import getTeamStats
-import models
-import numpy as np
-import lightgbm as lgbm
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-import duckdb
-# import ml_insights as mli
 import warnings
 warnings.filterwarnings("ignore")
-import matplotlib.pyplot as plt
 
-
+# Load the win analysis model
 winModel_pkl = joblib.load('backend\models\win_analysis.pkl')
-
-
 
 # Function to create a DataFrame and get predictions
 def get_win_prediction(home_team, visiting_team, season):
+    
     # Retrieve team stats
     home_stats = getTeamStats(home_team, season)
     visiting_stats = getTeamStats(visiting_team, season)
