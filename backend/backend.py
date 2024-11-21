@@ -53,6 +53,7 @@ def getGamesForDate():
         print(f"Error fetching schedule: {e}")
         return jsonify({'error': str(e)}), 500
     
+# Gets selected game details
 @app.route('/api/game-details', methods=['POST'])
 def get_game_details():
     data = request.get_json()
@@ -82,6 +83,6 @@ def get_game_details():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# How flask runs
 if __name__ == '__main__':
     app.run(debug=True)
-
