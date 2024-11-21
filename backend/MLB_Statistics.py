@@ -110,6 +110,22 @@ def getTeam_SLG(team_name, season):
         return { "team": team_name, "season": season, "SLG": slg }
     else:
         return f"No SLG stats available for {team_name} in {season}."
+    
+
+def getTeamStats(team_name, season):
+    # Get team OBP and SLG in one call for efficiency
+    obp_data = getTeam_OBP(team_name, season)
+    slg_data = getTeam_SLG(team_name, season)
+
+    obp = obp_data.get("OBP", 'N/A')
+    slg = slg_data.get("SLG", 'N/A')
+
+    return {
+        "team": team_name,
+        "season": season,
+        "OBP": obp,
+        "SLG": slg
+    }
 
 
 # Tests
