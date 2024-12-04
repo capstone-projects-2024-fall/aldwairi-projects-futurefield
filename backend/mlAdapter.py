@@ -5,7 +5,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # Load the win analysis model
-winModel_pkl = joblib.load('backend\models\win_analysis.pkl')
+winModel_pkl = joblib.load('/Users/mixturesolution/Documents/GitHub/aldwairi-projects-futurefield/backend/models/win_analysis.pkl')
 
 # Function to create a DataFrame and get predictions
 def get_win_prediction(home_team, visiting_team, season):

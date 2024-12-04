@@ -189,7 +189,7 @@ function Homepage() {
                   </div>
                   <div className="pitcher-header">
                     <div>Location: {selectedMockGame.venue}</div>
-                    <div>Time: {selectedMockGame.game_times}</div>
+                    <div>Time: {selectedMockGame.game_time}</div>
                     <div>Status: {selectedMockGame.status}</div>
                   </div>
                 </div>

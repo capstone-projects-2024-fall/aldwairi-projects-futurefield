@@ -9,3 +9,6 @@ gunicorn==20.1.0
 MLB-StatsAPI==1.7.2
 flask-cors
 requests 
+joblib
+pandas
+lightgbm

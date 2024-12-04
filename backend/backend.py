@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 import statsapi
 from flask_cors import CORS
 import requests
+import mlAdapter
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
@@ -166,32 +167,32 @@ def get_game_data(game_id):
     else:
         return jsonify({"error": "Game not found"}), 404
     
-@app.route('/api/game-prediction', methods=['POST'])
-def get_game_prediction():
-    data = request.get_json()
-    game_id = data.get('game_id')
-    if not game_id:
-        return jsonify({'error': 'Game ID is required'}), 400
+@app.route('/api/prediction', methods=['POST'])
+def win_prediction():
+    data = request.json
+    home_team = data.get('home_team', '').replace('_', ' ')
+    visiting_team = data.get('visiting_team', '').replace('_', ' ')
+    season = data.get('season')
+    
+    if not home_team or not visiting_team or not season:
+        return jsonify({"error": "home_team, visiting_team, and season are required"}), 400
 
     try:
-        # simulated prediction data for demonstration purposes
-        prediction_data = {
-            'away_win_probability': 54,  
-            'home_win_probability': 46, 
-            'away_odds': '-115',  
-            'home_odds': '+100',  
-            'away_pitcher': 'Blake Snell',
-            'home_pitcher': 'Albert Suárez',
-            'away_pitcher_record': '3-3, 3.52 ERA',
-            'home_pitcher_record': '8-5, 3.39 ERA',
-            'weather_last_updated': 'Sep 17, 7:33AM',
-            'weather_forecast': 'Clear skies, 72°F'
-        }
-        return jsonify(prediction_data), 200
-
+        prediction = mlAdapter.get_win_prediction(home_team, visiting_team, season)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        print(f"Error during prediction: {e}")
+        return jsonify({"error": "An error occurred during prediction.", "details": str(e)}), 500
 
-# How flask runs
+    if isinstance(prediction, dict) and "pkl_model_prediction" in prediction:
+        home_win_prob = prediction['pkl_model_prediction']
+        away_win_prob = 1 - home_win_prob
+
+        return jsonify({
+            "home_win_prob": round(home_win_prob * 100, 2),
+            "away_win_prob": round(away_win_prob * 100, 2),
+        }), 200
+    else:
+        return jsonify({"error": "Prediction failed or returned invalid data."}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
