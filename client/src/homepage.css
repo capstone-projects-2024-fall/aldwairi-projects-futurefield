@@ -131,13 +131,13 @@
 .event-box {
   background-color: white;
   width: 400px;
-  height: 300px;
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* adds a subtle shadow */
   box-sizing: border-box;
   justify-content: space-between;
+  overflow: hidden;
 }
 
 .event-box .box-banner {
@@ -156,6 +156,7 @@
 }
 
 .event-box .game-header{
+  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;

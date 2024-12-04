@@ -128,6 +128,7 @@ def get_game_data(game_id):
             if item.get("label") == "Venue":
                 venue = item.get("value", "Unknown").strip(".")  
                 break
+        for item in info_data:
             if item.get("label") == "Weather":
                 weather = item.get("value", "Unknown").strip(".")
                 break

@@ -32,70 +32,77 @@ function GameDetails() {
   if (!gameDetails || !prediction) return <p>Loading...</p>;
 
   const renderBoxscore = (teamName, boxscore) => (
-    <div>
-      <h3>{teamName}</h3>
-      <h4>Batters</h4>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>AB</th>
-            <th>R</th>
-            <th>H</th>
-            <th>RBI</th>
-            <th>BB</th>
-            <th>K</th>
-            <th>LOB</th>
-          </tr>
-        </thead>
-        <tbody>
-          {boxscore.batters.map((batter, index) => (
-            <tr key={index}>
-              <td>{batter.name}</td>
-              <td>{batter.AB}</td>
-              <td>{batter.R}</td>
-              <td>{batter.H}</td>
-              <td>{batter.RBI}</td>
-              <td>{batter.BB}</td>
-              <td>{batter.K}</td>
-              <td>{batter.LOB}</td>
+    <div className="boxscore-container">
+      <h3 className="team-name">{teamName}</h3>
+      
+      <div className="section">
+        <h4>Batters</h4>
+        <table className="boxscore-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>AB</th>
+              <th>R</th>
+              <th>H</th>
+              <th>RBI</th>
+              <th>BB</th>
+              <th>K</th>
+              <th>LOB</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <h4>Pitchers</h4>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>IP</th>
-            <th>H</th>
-            <th>R</th>
-            <th>ER</th>
-            <th>BB</th>
-            <th>K</th>
-            <th>HR</th>
-            <th>ERA</th>
-          </tr>
-        </thead>
-        <tbody>
-          {boxscore.pitchers.map((pitcher, index) => (
-            <tr key={index}>
-              <td>{pitcher.name}</td>
-              <td>{pitcher.IP}</td>
-              <td>{pitcher.H}</td>
-              <td>{pitcher.R}</td>
-              <td>{pitcher.ER}</td>
-              <td>{pitcher.BB}</td>
-              <td>{pitcher.K}</td>
-              <td>{pitcher.HR}</td>
-              <td>{pitcher.ERA}</td>
+          </thead>
+          <tbody>
+            {boxscore.batters.map((batter, index) => (
+              <tr key={index}>
+                <td>{batter.name}</td>
+                <td>{batter.AB}</td>
+                <td>{batter.R}</td>
+                <td>{batter.H}</td>
+                <td>{batter.RBI}</td>
+                <td>{batter.BB}</td>
+                <td>{batter.K}</td>
+                <td>{batter.LOB}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+  
+      <div className="section">
+        <h4>Pitchers</h4>
+        <table className="boxscore-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>IP</th>
+              <th>H</th>
+              <th>R</th>
+              <th>ER</th>
+              <th>BB</th>
+              <th>K</th>
+              <th>HR</th>
+              <th>ERA</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {boxscore.pitchers.map((pitcher, index) => (
+              <tr key={index}>
+                <td>{pitcher.name}</td>
+                <td>{pitcher.IP}</td>
+                <td>{pitcher.H}</td>
+                <td>{pitcher.R}</td>
+                <td>{pitcher.ER}</td>
+                <td>{pitcher.BB}</td>
+                <td>{pitcher.K}</td>
+                <td>{pitcher.HR}</td>
+                <td>{pitcher.ERA}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
+
 
   return (
     <>

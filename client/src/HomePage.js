@@ -6,7 +6,7 @@ function Homepage() {
   const [dates, setDates] = useState([]);
   const [currentStartDate, setCurrentStartDate] = useState(new Date());
   const [games, setGames] = useState([]); // store games info
-  const [setErrorMessage] = useState(null); // store error messages
+  const [errorMessage, setErrorMessage] = useState(null); // store error messages
   const [showMockGames, setShowMockGames] = useState(false);
 
   useEffect(() => {
