@@ -11,10 +11,12 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 def hello_world():
     return "<p>Hello, World!</p>"
 
+# Gets the current time of day and displays it
 @app.route('/api/time', methods=['GET'])
 def get_current_time():
     return {'time': time.time()}
 
+# Gets the current day of the year
 @app.route('/api/date', methods=['POST'])
 def get_games_for_date():
     # retrieve the date from the frontend
@@ -190,6 +192,6 @@ def get_game_prediction():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# How flask runs
 if __name__ == '__main__':
     app.run(debug=True)
-
