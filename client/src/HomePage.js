@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './homepage.css'; 
-import mockGames from './mockgame.js';
+import mockGames from './mockgameVar.js';
 
 function Homepage() {
   const [dates, setDates] = useState([]);
   const [currentStartDate, setCurrentStartDate] = useState(new Date());
   const [games, setGames] = useState([]); // store games info
-  const [errorMessage, setErrorMessage] = useState(null); // store error messages
+  const [setErrorMessage] = useState(null); // store error messages
   const [showMockGames, setShowMockGames] = useState(false);
 
   useEffect(() => {
@@ -48,7 +48,6 @@ function Homepage() {
     setDates(weekDates);  // set the generated dates into state
   };
 
-
   // function to handle moving to the next day
   const handleNextDay = () => {
     const newStartDate = new Date(currentStartDate);
@@ -72,11 +71,9 @@ function Homepage() {
     setShowMockGames(false); // Show normal games
   };
 
-  const handleDateClick = (selectedDate) => {
-    console.log("Raw Selected Date:", selectedDate);  // log the raw selected date
-  
+  const handleDateClick = (selectedDate) => { 
     setErrorMessage(null);
-    setGames([]); // clear previous games
+    setGames([]); 
   
     // make sure selectedDate is valid before formatting
     const formattedDate = new Date(selectedDate).toLocaleDateString('en-US', {
@@ -108,7 +105,6 @@ function Homepage() {
       });
   };
    
-
   return (
     <div className="homepage">
       {/* Header with logo and navigation */}
@@ -199,7 +195,7 @@ function Homepage() {
                 </div>
                 <div className="game-details-button">
                   <button
-                    onClick={() => window.location.href = `/game-details/${selectedMockGame.game_id}`}
+                    onClick={() => window.location.href = `/mockgame/${selectedMockGame.game_id}`}
                     className="details-button"
                   >
                     Details

@@ -158,18 +158,75 @@
   background-color: #f44336;
 }
 
-/* Weather Information */
-.weather-info {
-  margin-top: 20px;
+/* Weather box*/
+.weather-box {
+  background-color: navy;
+  color: white; 
+  padding: 20px; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+  margin: 20px 0; 
+  max-width: 100%; 
+}
+
+.weather-title {
+  font-size: 1.5rem; 
+  font-weight: bold; 
+  margin-bottom: 10px; 
+  text-align: center; 
+  border-bottom: 2px solid white;
+  padding-bottom: 10px; 
+}
+
+.weather-details p {
+  font-size: 1rem; 
+  line-height: 1.5; 
+  margin: 10px 0; 
+}
+
+.weather-details strong {
+  color: #FFD700; 
+}
+
+/* Boxscore and table */
+.boxscore {
+  margin: 20px 0;
+}
+
+.boxscore h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #333;
+}
+
+.boxscore table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.boxscore table thead {
+  background-color: navy;
+  color: white;
+}
+
+.boxscore table th,
+.boxscore table td {
+  padding: 8px 12px;
   text-align: left;
+  border: 1px solid #ddd;
 }
 
-.weather-info h4 {
-  font-size: 16px;
-  font-weight: bold;
+.boxscore table th {
+  text-transform: uppercase;
+  font-size: 0.9em;
 }
 
-.weather-info p {
-  font-size: 14px;
-  color: #555;
+.boxscore table tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+.boxscore table tbody tr:hover {
+  background-color: #e9e9e9;
 }
