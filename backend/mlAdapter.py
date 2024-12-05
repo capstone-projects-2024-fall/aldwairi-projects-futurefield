@@ -5,7 +5,6 @@ from MLB_Statistics import getTeamStats
 import warnings
 warnings.filterwarnings("ignore")
 
-# Load the win prediction model
 winModel_pkl = joblib.load('models/win_analysis.pkl')
 
 # Function to create a DataFrame and get predictions for winModel_pkl
