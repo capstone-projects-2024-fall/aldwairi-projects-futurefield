@@ -1,132 +1,323 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import mockGames from './mockgameVar';
 import './mockgame.css';
 
 function MockGame() {
   const { mockGameId } = useParams();
+  const [prediction, setPrediction] = useState(null);
   const [selectedTab, setSelectedTab] = useState('Summary');
+  const [prediction2, setPrediction2] = useState('Summary');
+  const [prediction3, setPrediction3] = useState('Summary');
 
   const mockGameDetails = mockGames.find((game) => game.game_id === mockGameId);
+
+  useEffect(() => {
+    if (selectedTab === 'score predictions' && mockGameDetails) {
+      fetchPrediction();
+    }
+    if (selectedTab === 'pitch predictions' && mockGameDetails) {
+      fetchPrediction2();
+    }
+    if (selectedTab === 'hit predictions' && mockGameDetails) {
+      fetchPrediction3();
+    }
+  }, [selectedTab, mockGameDetails]);
+
+  const fetchPrediction = () => {
+    if (!mockGameDetails) return;
+
+    const mockData = {
+      home_team: mockGameDetails.home_team,
+      visiting_team: mockGameDetails.away_team,
+      season: '2024',
+    };
+
+    fetch('http://127.0.0.1:5000/api/win-prediction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(mockData),
+    })
+      .then((response) => response.json())
+      .then((data) => setPrediction(data))
+      .catch((error) => console.error('Error fetching prediction:', error));
+  };
+
+  const fetchPrediction2 = () => {
+    if (!mockGameDetails) return;
+
+    const mockData = {
+      home_team: mockGameDetails.home_team,
+      visiting_team: mockGameDetails.away_team,
+      season: '2024',
+    };
+
+    fetch('http://127.0.0.1:5000/api/pitch-prediction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(mockData),
+    })
+      .then((response) => response.json())
+      .then((data) => setPrediction2(data))
+      .catch((error) => console.error('Error fetching alternative prediction:', error));
+  };
+
+  const fetchPrediction3 = () => {
+    if (!mockGameDetails) return;
+
+    const mockData = {
+      home_team: mockGameDetails.home_team,
+      visiting_team: mockGameDetails.away_team,
+      season: '2024',
+    };
+
+    fetch('http://127.0.0.1:5000/api/hit-prediction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(mockData),
+    })
+      .then((response) => response.json())
+      .then((data) => setPrediction3(data))
+      .catch((error) => console.error('Error fetching hit prediction:', error));
+  };
 
   if (!mockGameDetails) {
     return <p>Game not found. Please check the game ID.</p>;
   }
 
-  const renderBoxscore = (teamName, boxscore) => (
-    <div>
-      <h3>{teamName}</h3>
-      <h4>Batters</h4>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>AB</th>
-            <th>R</th>
-            <th>H</th>
-            <th>RBI</th>
-            <th>BB</th>
-            <th>K</th>
-            <th>LOB</th>
-          </tr>
-        </thead>
-        <tbody>
-          {boxscore.batters.map((batter, index) => (
-            <tr key={index}>
-              <td>{batter.name}</td>
-              <td>{batter.AB}</td>
-              <td>{batter.R}</td>
-              <td>{batter.H}</td>
-              <td>{batter.RBI}</td>
-              <td>{batter.BB}</td>
-              <td>{batter.K}</td>
-              <td>{batter.LOB}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <h4>Pitchers</h4>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>IP</th>
-            <th>H</th>
-            <th>R</th>
-            <th>ER</th>
-            <th>BB</th>
-            <th>K</th>
-            <th>HR</th>
-            <th>ERA</th>
-          </tr>
-        </thead>
-        <tbody>
-          {boxscore.pitchers.map((pitcher, index) => (
-            <tr key={index}>
-              <td>{pitcher.name}</td>
-              <td>{pitcher.IP}</td>
-              <td>{pitcher.H}</td>
-              <td>{pitcher.R}</td>
-              <td>{pitcher.ER}</td>
-              <td>{pitcher.BB}</td>
-              <td>{pitcher.K}</td>
-              <td>{pitcher.HR}</td>
-              <td>{pitcher.ERA}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-
   return (
-    <div className="mock-game">
-      <h1>Mock Game Details</h1>
-      <div className="game-header">
-        <div className="team">
-          <h2>{mockGameDetails.away_team}</h2>
-          <p>Score: {mockGameDetails.away_score}</p>
+    <>
+      <div className="game-details">
+        <div className="game-header">
+          <div className="team">
+            <img
+              src={`/logos/${mockGameDetails.away_team.replace(/\s/g, '_')}.png`}
+              alt={`${mockGameDetails.away_team} logo`}
+              className="team-logo"
+            />
+            <strong>{mockGameDetails.away_team}</strong>
+            <p className="score">{mockGameDetails.away_score}</p>
+          </div>
+
+          <div className="game-loca">
+            <p>
+              {mockGameDetails.date} at {mockGameDetails.game_time} {mockGameDetails.ampm}
+            </p>
+          </div>
+
+          <div className="team">
+            <img
+              src={`/logos/${mockGameDetails.home_team.replace(/\s/g, '_')}.png`}
+              alt={`${mockGameDetails.home_team} logo`}
+              className="team-logo"
+            />
+            <strong>{mockGameDetails.home_team}</strong>
+            <p className="score">{mockGameDetails.home_score}</p>
+          </div>
         </div>
-        <div className="game-info">
-          <p>{mockGameDetails.date} at {mockGameDetails.game_time}</p>
-          <p>Venue: {mockGameDetails.venue}</p>
-          <p>Weather: {mockGameDetails.weather}</p>
-          <p>Wind: {mockGameDetails.wind}</p>
+
+        <div className="venue-info">
+          <p>Location: {mockGameDetails.venue}</p>
         </div>
-        <div className="team">
-          <h2>{mockGameDetails.home_team}</h2>
-          <p>Score: {mockGameDetails.home_score}</p>
+        <div className="status-info">
+          <p>Status: {mockGameDetails.status}</p>
         </div>
       </div>
 
-      <div className="tabs">
-        <button
-          onClick={() => setSelectedTab('Summary')}
-          className={selectedTab === 'Summary' ? 'active' : ''}
-        >
-          Summary
-        </button>
-        <button
-          onClick={() => setSelectedTab('Boxscore')}
-          className={selectedTab === 'Boxscore' ? 'active' : ''}
-        >
-          Boxscore
-        </button>
+      {/* Winning Statistics Section */}
+      <div className="box">
+        <h2>Winning Statistics</h2>
+        <div className="tabs">
+          <button
+            onClick={() => setSelectedTab('current_score')}
+            className={selectedTab === 'current_score' ? 'active' : ''}
+          >
+            Current Score
+          </button>
+          <button
+            onClick={() => setSelectedTab('score predictions')}
+            className={selectedTab === 'score predictions' ? 'active' : ''}
+          >
+            Predictions
+          </button>
+        </div>
+
+        {selectedTab === 'current_score' && (
+          <div className="moneyline-container">
+            <div className="team-info">
+            <img
+              src={`/logos/${mockGameDetails.away_team.replace(/\s/g, '_')}.png`}
+              alt={`${mockGameDetails.away_team} logo`}
+              className="team-logo"
+            />
+              <div className="team-details">
+                <h3>{mockGameDetails.away_team}</h3>
+                <p>
+                  Current Score: {mockGameDetails.away_score} -{' '}
+                  {mockGameDetails.home_score}
+                </p>
+              </div>
+            </div>
+
+            <div className="team-info">
+              <img
+                src={`/logos/${mockGameDetails.home_team.replace(/\s/g, '_')}.png`}
+                alt={`${mockGameDetails.home_team} logo`}
+                className="team-logo"
+              />
+              <div className="team-details">
+                <h3>{mockGameDetails.home_team}</h3>
+                <p>
+                  Current Score: {mockGameDetails.home_score} -{' '}
+                  {mockGameDetails.away_score}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedTab === 'score predictions' && prediction && (
+          <div className="moneyline-container">
+            <div className="team-info">
+              <img
+                src={`/logos/${mockGameDetails.away_team.replace(/\s/g, '_')}.png`}
+                alt={`${mockGameDetails.away_team} logo`}
+                className="team-logo"
+              />
+              <div className="team-details">
+                <h3>{mockGameDetails.away_team}</h3>
+                <p>Win Probability: {prediction.away_win_prob}%</p>
+              </div>
+            </div>
+
+            <div className="moneyline-center">
+              <p>Moneyline</p>
+              <div className="win-bar">
+                <div
+                  className="away-bar"
+                  style={{ width: `${prediction.away_win_prob}%` }}
+                ></div>
+                <div
+                  className="home-bar"
+                  style={{ width: `${prediction.home_win_prob}%` }}
+                ></div>
+              </div>
+            </div>
+
+            <div className="team-info">
+              <img
+                src={`/logos/${mockGameDetails.home_team.replace(/\s/g, '_')}.png`}
+                alt={`${mockGameDetails.home_team} logo`}
+                className="team-logo"
+              />
+              <div className="team-details">
+                <h3>{mockGameDetails.home_team}</h3>
+                <p>Win Probability: {prediction.home_win_prob}%</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {selectedTab === 'Summary' && (
-        <div className="summary">
-          <p>This is a {mockGameDetails.status} game.</p>
+      {/* Hit Statistics Section */}
+      <div className="box">
+        <h2>Hit Statistics</h2>
+        <div className="tabs">
+          <button
+            onClick={() => setSelectedTab('current_hit')}
+            className={selectedTab === 'current_hit' ? 'active' : ''}
+          >
+            Current Hit
+          </button>
+          <button
+            onClick={() => setSelectedTab('hit predictions')}
+            className={selectedTab === 'hit predictions' ? 'active' : ''}
+          >
+            Predictions
+          </button>
         </div>
-      )}
+        {selectedTab === 'current_hit' && (
+          <div className="current-hit-content">
+            <p>
+              <strong>Pitcher:</strong> {mockGameDetails.game_state.pitcher}
+            </p>
+            <p>
+              <strong>Batter:</strong> {mockGameDetails.game_state.batter}
+            </p>
+            <p>
+              <strong>Zone:</strong> {mockGameDetails.game_state.zone}
+            </p>
+            <h4>Runners on Base:</h4>
+            <p>
+              <strong>1st Base:</strong>{' '}
+              {mockGameDetails.game_state.runners_on_base.on_1b}
+            </p>
+            <p>
+              <strong>2nd Base:</strong>{' '}
+              {mockGameDetails.game_state.runners_on_base.on_2b}
+            </p>
+            <p>
+              <strong>3rd Base:</strong>{' '}
+              {mockGameDetails.game_state.runners_on_base.on_3b}
+            </p>
+          </div>
+        )}
+      </div>
 
-      {selectedTab === 'Boxscore' && (
-        <div className="boxscore">
-          {renderBoxscore(mockGameDetails.away_team, mockGameDetails.away_boxscore)}
-          {renderBoxscore(mockGameDetails.home_team, mockGameDetails.home_boxscore)}
+      {/* Pitch Statistics Section */}
+      <div className="box">
+        <h2>Pitch Statistics</h2>
+        <div className="tabs">
+          <button
+            onClick={() => setSelectedTab('current_pitch')}
+            className={selectedTab === 'current_pitch' ? 'active' : ''}
+          >
+            Current Pitch
+          </button>
+          <button
+            onClick={() => setSelectedTab('pitch predictions')}
+            className={selectedTab === 'pitch predictions' ? 'active' : ''}
+          >
+            Predictions
+          </button>
         </div>
-      )}
-    </div>
+        {selectedTab === 'current_pitch' && (
+          <div className="current-pitch">
+            <p>
+              <strong>Inning:</strong> {mockGameDetails.game_state.inning}</p>
+            <p>
+              <strong>Pitcher Throws:</strong>{' '}
+              {mockGameDetails.game_state.p_throws === 0
+                ? 'Right-handed'
+                : 'Left-handed'}
+            </p>
+            <p>
+              <strong>Strikes:</strong> {mockGameDetails.game_state.strikes}</p>
+            <p>
+              <strong>Balls:</strong> {mockGameDetails.game_state.balls}</p>
+            <p>
+              <strong>Outs:</strong> {mockGameDetails.game_state.outs_when_up}</p>
+          </div>
+        )}
+      </div>
+
+      <div className="weather-box">
+          <h2 className="weather-title">Game Day Weather</h2>
+          <div className="weather-details">
+            <p>
+              During the game, the weather is likely to be{' '}
+              <strong>{mockGameDetails.weather}</strong>.
+            </p>
+            <p>
+              Wind is <strong>{mockGameDetails.wind}</strong>.
+            </p>
+            <p>
+              First pitch happened at{' '}
+              <strong>{mockGameDetails.first_pitch}</strong>.
+            </p>
+          </div>
+        </div>
+    </>
   );
 }
 

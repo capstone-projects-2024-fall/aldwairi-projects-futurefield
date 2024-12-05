@@ -5,8 +5,6 @@ from backend.MLB_Statistics import getTeamStats
 import warnings
 warnings.filterwarnings("ignore")
 
-# Load the pitch prediction model
-pitch_model = joblib.load('backend\models\pitchType_API_RandomForrest.joblib')
 
 # Load the win prediction model
 winModel_pkl = joblib.load('backend\models\win_analysis.pkl')
