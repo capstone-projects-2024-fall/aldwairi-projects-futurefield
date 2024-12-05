@@ -3,7 +3,7 @@ import joblib
 from pybaseball import playerid_lookup, statcast
 
 # Load the hit analysis model
-hit_analysis_model = joblib.load('backend\models\hit_analysis_model2.joblib')
+hit_analysis_model = joblib.load('models/hit_analysis_model2.joblib')
 
 def fetch_game_data(start_date: str, end_date: str) -> pd.DataFrame:
     """
