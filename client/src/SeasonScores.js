@@ -7,6 +7,8 @@ function SeasonScores() {
   const [season, setSeason] = useState(currentYear); // Default to current year
   const [seasonDetails, setSeasonDetails] = useState(null);
   const [predictionData, setPredictionData] = useState([]);
+  const [playoffPrediction, setPlayoffPrediction] = useState([]);
+
 
   useEffect(() => {
     // Fetch the World Series prediction data from the 2025ws.json file
@@ -15,6 +17,15 @@ function SeasonScores() {
       .then((data) => setPredictionData(data))
       .catch((error) => console.error("Error fetching prediction data:", error));
   }, []);
+
+  useEffect(() => {
+    // Fetch the World Series prediction data from the 2025ws.json file
+    fetch('/playoff_predictions.json')
+      .then((response) => response.json())
+      .then((data) => setPlayoffPrediction(data))
+      .catch((error) => console.error("Error fetching  playoffprediction data:", error));
+  }, []);
+
 
   useEffect(() => {
     // Fetch season details and prediction data from the backend
@@ -49,6 +60,22 @@ function SeasonScores() {
 
     predictionData.forEach((team) => {
       content += `<li><strong>${team.name}:</strong> ${Math.round(team.WSWin_Prob * 100)}% chance</li>`;
+    });
+
+    content += "</ul><button onclick='window.close()'>Close</button>";
+
+    popupWindow.document.write(content);
+    popupWindow.document.close(); // Needed for the content to render
+  };
+
+  const handleShowPlayoffPrediction = () => {
+    const popupWindow = window.open("", "PlayoffPrediction", "width=500,height=600");
+
+    // Adding HTML content dynamically to the new window
+    let content = "<h2>Playoff Prediction for Next Year</h2><ul>";
+
+    playoffPrediction.forEach((team) => {
+      content += `<li><strong>${team.teamID}:</strong> ${Math.round(team.Playoff_Prob * 100)}% chance</li>`;
     });
 
     content += "</ul><button onclick='window.close()'>Close</button>";
@@ -107,6 +134,7 @@ function SeasonScores() {
           max={currentYear}
         />
         <button onClick={handleShowPrediction}>Predict Next Year</button>
+        <button onClick={handleShowPlayoffPrediction}>Predict Next Year</button>
       </div>
 
       {/* Display Series Results */}
