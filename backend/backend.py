@@ -4,6 +4,7 @@ import statsapi
 from flask_cors import CORS
 import requests
 import mlAdapter
+import Pitch_Stats
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
@@ -212,6 +213,33 @@ def win_prediction():
         }), 200
     else:
         return jsonify({"error": "Prediction failed or returned invalid data."}), 500
+
+@app.route('/api/pitch-prediction', methods=['POST'])
+def pitch_prediction():
+    try:
+        data = request.json
+
+        start_date = "2024-10-05"
+        end_date = "2024-10-05"
+        inning = data.get("inning")
+        outs = data.get("outs")
+        strikes = data.get("strikes")
+        balls = data.get("balls")
+
+        if not all([start_date, end_date, inning, outs, strikes, balls]):
+            return jsonify({"error": "Missing required parameters"}), 400
+
+        game_data = Pitch_Stats.fetch_game_data(start_date=start_date, end_date=end_date)
+
+        if game_data.empty:
+            return jsonify({"error": "No game data available for the provided dates"}), 404
+
+        prediction = Pitch_Stats.get_pitch_prediction(game_data, inning, outs, strikes, balls)
+
+        return jsonify(prediction), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

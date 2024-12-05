@@ -194,6 +194,26 @@
   margin: 5px 0;
 }
 
+.prediction-container {
+  display: flex;
+  align-items: center; 
+  justify-content: flex-start; 
+  gap: 20px; 
+}
+
+.prediction-text {
+  text-align: center; 
+  font-size: 1.2rem; 
+}
+
+.ball-pic {
+  margin-top: 20px;
+  margin-left: 50px;
+  margin-right: 200px;
+  width: 400px;
+  border-radius: 10px;
+}
+
 /* Weather box */
 .weather-box {
   background-color: navy;

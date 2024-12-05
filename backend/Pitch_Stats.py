@@ -23,7 +23,7 @@ def fetch_game_data(start_date: str, end_date: str) -> pd.DataFrame:
 
 
 # Load the pitch prediction model
-pitch_model = joblib.load('backend\models\pitchType_API_RandomForrest.joblib')
+pitch_model = joblib.load('models/pitchType_API_RandomForrest.joblib')
 
 def get_pitch_prediction(game_data: pd.DataFrame, inning: int, outs: int, strikes: int, balls: int):
     """

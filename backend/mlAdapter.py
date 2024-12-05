@@ -1,16 +1,12 @@
 import joblib
 import pandas as pd
 import numpy as np
-from backend.MLB_Statistics import getTeamStats
+from MLB_Statistics import getTeamStats
 import warnings
 warnings.filterwarnings("ignore")
 
-
 # Load the win prediction model
-winModel_pkl = joblib.load('backend\models\win_analysis.pkl')
-
-
-
+winModel_pkl = joblib.load('models/win_analysis.pkl')
 
 # Function to create a DataFrame and get predictions for winModel_pkl
 def get_win_prediction(home_team, visiting_team, season):
@@ -49,6 +45,7 @@ def get_win_prediction(home_team, visiting_team, season):
         return f"Error during prediction: {e}"
 
 # Example usage
+"""
 home_team = "Los Angeles Angels"
 visiting_team = "New York Yankees"
 season = "2023"
@@ -57,3 +54,4 @@ prediction = get_win_prediction(home_team, visiting_team, season)
 if isinstance(prediction, dict):
     print(f"Probability of {home_team} winning (pkl model): {prediction['pkl_model_prediction']:.2%}")
     print(prediction)
+"""
