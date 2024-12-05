@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './homepage.css'; 
+import mockGames from './mockgameVar.js';
 
 function Homepage() {
   const [dates, setDates] = useState([]);
   const [currentStartDate, setCurrentStartDate] = useState(new Date());
   const [games, setGames] = useState([]); // store games info
   const [errorMessage, setErrorMessage] = useState(null); // store error messages
+  const [showMockGames, setShowMockGames] = useState(false);
 
   useEffect(() => {
     generateWeekDates(currentStartDate);
@@ -46,7 +48,6 @@ function Homepage() {
     setDates(weekDates);  // set the generated dates into state
   };
 
-
   // function to handle moving to the next day
   const handleNextDay = () => {
     const newStartDate = new Date(currentStartDate);
@@ -61,11 +62,18 @@ function Homepage() {
     setCurrentStartDate(newStartDate);
   };
 
-  const handleDateClick = (selectedDate) => {
-    console.log("Raw Selected Date:", selectedDate);  // log the raw selected date
-  
+  // Toggle the display mode
+  const handleMockGameClick = () => {
+    setShowMockGames(true); // Show mock games
+  };
+
+  const handleNormalGameClick = () => {
+    setShowMockGames(false); // Show normal games
+  };
+
+  const handleDateClick = (selectedDate) => { 
     setErrorMessage(null);
-    setGames([]); // clear previous games
+    setGames([]); 
   
     // make sure selectedDate is valid before formatting
     const formattedDate = new Date(selectedDate).toLocaleDateString('en-US', {
@@ -97,7 +105,6 @@ function Homepage() {
       });
   };
    
-
   return (
     <div className="homepage">
       {/* Header with logo and navigation */}
@@ -148,85 +155,114 @@ function Homepage() {
             {/* Calendar Icon */}
             <span className="calendar-icon" role="img" aria-label="Calendar">&#128197;</span>
           </div>
+
+          {/* Mock Games Button */}
+          <div className="mock-games-button-container">
+            <button className="mock-games-button" onClick={handleMockGameClick}>
+              Show Mock Games
+            </button>
+            <button className="mock-games-button" onClick={handleNormalGameClick}>
+              Close
+            </button>
+          </div>
         </div>
       </header>
   
       {/* Main content with events */}
       <main className="content">
         <div className="event-container">
-          {errorMessage && <p>{errorMessage}</p>}
-
-          {games.length > 0 && (
-            games.map((game, index) => {
-              const currentTime = new Date();
-              const gameTime = new Date(game.game_time);
-
-              // check if the game is upcoming or past
-              const isUpcoming = gameTime > currentTime;
-              const winningTeam = game.away_score > game.home_score ? game.away_team : game.home_team;
-              const finalScore = `${game.away_score} - ${game.home_score}`;
-
-              const formattedGameTime = gameTime.toLocaleTimeString('en-US', {
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: true
-              });
-
-              return (
-                <div key={index} className="event-box">
-                  <div className="box-banner">
-                    <p>World Series </p>
-                    <p>{winningTeam} wins {finalScore}</p>
+          {showMockGames ? (
+            mockGames.map((selectedMockGame) =>  (
+              <div key={selectedMockGame.game_id} className="event-box">
+                <div className="box-banner">
+                  <p>World Series </p>
+                  <p>{selectedMockGame.away_team} vs {selectedMockGame.home_team}</p>
+                </div>
+                <div className="game-header">
+                  <div className="team1">
+                    <strong>{selectedMockGame.away_team}</strong>
+                    <p className="score">{selectedMockGame.away_score} - {selectedMockGame.home_score}</p>
                   </div>
-
-
-                  {isUpcoming ? (
-                    // information for upcoming games
-                    <div className="upcoming-game">
-                      <div className="game-header">
-                        <div>
-                          <strong>{game.away_team}</strong>
-                        </div>
-                        <div>
-                          <strong>{game.home_team}</strong>
-                        </div>
-                      </div>
-                      <p>Location: {game.venue}</p>
-                      <p>Time: {game.formattedGameTime}</p>
-                    </div>
-                  ) : (
-                    // information for past games
-                    <div className="game-header">
-                      <div className="team">
-                        <strong>{game.away_team}</strong>
-                        <p className="score">{game.away_score} - {game.home_score}</p>
-                      </div>
-                      <div className="team">
-                        <strong>{game.home_team}</strong>
-                        <p className="score">{game.home_score} - {game.away_score}</p>
-                      </div>
-                      <div className="pitcher-header">
-                        <div>W: {game.winning_pitcher || "N/A"}</div>
-                        <div>L: {game.losing_pitcher || "N/A"}</div>
-                        <div>S: {game.save_pitcher || "N/A"}</div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Navy button for "Details" */}
-                  <div className="game-details-button">
-                    <button onClick={() => window.location.href = `/game-details/${game.game_id}`} className="details-button">
-                      Details
-                    </button>
+                  <div className="team2">
+                    <strong>{selectedMockGame.home_team}</strong>
+                    <p className="score">{selectedMockGame.home_score} - {selectedMockGame.away_score}</p>
+                  </div>
+                  <div className="pitcher-header">
+                    <div>Location: {selectedMockGame.venue}</div>
+                    <div>Time: {selectedMockGame.game_times}</div>
+                    <div>Status: {selectedMockGame.status}</div>
                   </div>
                 </div>
-              );
-            })
+                <div className="game-details-button">
+                  <button
+                    onClick={() => window.location.href = `/mockgame/${selectedMockGame.game_id}`}
+                    className="details-button"
+                  >
+                    Details
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            games.length > 0 && (
+              games.map((game, index) => {
+                const currentTime = new Date();
+                const gameTime = new Date(game.game_time);
+
+                // check if the game is upcoming or past
+                const isUpcoming = gameTime > currentTime;
+                const winningTeam = game.away_score > game.home_score ? game.away_team : game.home_team;
+                const finalScore = `${game.away_score} - ${game.home_score}`;
+
+                return (
+                  <div key={index} className="event-box">
+                    <div className="box-banner">
+                      <p>World Series </p>
+                      <p>{winningTeam} wins {finalScore}</p>
+                    </div>
+                    {isUpcoming ? (
+                      <div className="upcoming-game">
+                        <div className="game-header">
+                          <div><strong>{game.away_team}</strong></div>
+                          <div><strong>{game.home_team}</strong></div>
+                        </div>
+                        <p>Location: {game.venue}</p>
+                        <p>Time: {game.formattedGameTime}</p>
+                      </div>
+                    ) : (
+                      <div className="game-header">
+                        <div className="team1">
+                          <strong>{game.away_team}</strong>
+                          <p className="score">{game.away_score} - {game.home_score}</p>
+                        </div>
+                        <div className="team2">
+                          <strong>{game.home_team}</strong>
+                          <p className="score">{game.home_score} - {game.away_score}</p>
+                        </div>
+                        <div className="pitcher-header">
+                          <div>W: {game.winning_pitcher || "N/A"}</div>
+                          <div>L: {game.losing_pitcher || "N/A"}</div>
+                          <div>S: {game.save_pitcher || "N/A"}</div>
+                        </div>
+                      </div>
+                    )}
+                    <div className="game-details-button">
+                      <button
+                        onClick={() => window.location.href = `/game-details/${game.game_id}`}
+                        className="details-button"
+                      >
+                        Details
+                      </button>
+                    </div>
+                  </div>
+                );
+              })
+            )
           )}
         </div>
-    </main>
+      </main>
     </div>
-  );  
+  );
 }
 
 export default Homepage;

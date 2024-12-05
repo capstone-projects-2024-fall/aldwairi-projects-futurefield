@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import Homepage from './HomePage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import GameDetails from './GameDetails'; // create this component for game details
 import SeasonScores from './SeasonScores';
+import MockGame from './mockgame';
 
 function App() {
   return (
@@ -11,6 +11,7 @@ function App() {
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/game-details/:gameId" element={<GameDetails />} /> 
         <Route path="/seasonscores" element={<SeasonScores />} />
+        <Route path="/mockgame/:mockGameId" element={<MockGame />} />
       </Routes>
     </Router>
   );
