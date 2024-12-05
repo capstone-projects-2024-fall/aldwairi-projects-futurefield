@@ -12,6 +12,21 @@ const mockGames = [
     weather: "Cloudy",
     wind: "5 mph NE",
     first_pitch: "7:10 PM",
+    game_state: {
+      inning: 4,
+      p_throws: 0,
+      strikes: 2,
+      balls: 1,
+      outs_when_up: 2,
+      batter: "Bryce Harper",
+      pitcher: "José Alvarado",
+      zone: 5,
+      runners_on_base: {
+        on_1b: 0,
+        on_2b: 0,
+        on_3b: 0,
+      },
+    },
     away_boxscore: {
       batters: [
         { name: "Player 1", AB: 3, R: 1, H: 1, RBI: 2, BB: 0, K: 1, LOB: 2 },
@@ -44,6 +59,21 @@ const mockGames = [
     weather: "Cloudy",
     wind: "5 mph NE",
     first_pitch: "7:10 PM",
+    game_state: {
+      inning: 4,
+      p_throws: 0,
+      strikes: 2,
+      balls: 1,
+      outs_when_up: 2,
+      batter: "Bryce Harper",
+      pitcher: "José Alvarado",
+      zone: 5,
+      runners_on_base: {
+        on_1b: 0,
+        on_2b: 0,
+        on_3b: 0,
+      },
+    },
     away_boxscore: {
       batters: [
         { name: "Player 1", AB: 3, R: 1, H: 1, RBI: 2, BB: 0, K: 1, LOB: 2 },

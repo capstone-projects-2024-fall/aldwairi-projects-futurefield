@@ -1,3 +1,4 @@
+/* Main game details */
 .game-details {
   padding: 20px;
   background-color: white;
@@ -8,7 +9,7 @@
 
 .game-header {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
   font-size: 18px;
@@ -24,12 +25,12 @@
 }
 
 .team:first-child {
-  justify-content: flex-start; 
+  justify-content: flex-start;
 }
 
 .team:last-child {
-  justify-content: flex-end; 
-  text-align: right; 
+  justify-content: flex-end;
+  text-align: right;
 }
 
 .team-logo {
@@ -46,12 +47,13 @@
 .game-loca {
   text-align: center;
   font-size: 16px;
-  margin: 0 20px; 
-  flex: 1; 
-  white-space: nowrap; 
+  margin: 0 20px;
+  flex: 1;
+  white-space: nowrap;
 }
 
-.venue-info, .status-info {
+.venue-info,
+.status-info {
   text-align: center;
   font-size: 16px;
   margin: 10px 0;
@@ -95,6 +97,28 @@
   color: #fff;
 }
 
+/* Boxes for sections */
+.box {
+  background-color: #f8f9fa;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  margin-left: 20px; /* Adds left margin */
+  margin-right: 20px; /* Adds right margin */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.box h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: lightslategray;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+  text-align: center;
+}
+
 .moneyline-container {
   display: flex;
   justify-content: space-between;
@@ -119,25 +143,6 @@
   align-items: flex-start;
 }
 
-.bet-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 5px;
-}
-
-.bet-odds {
-  background-color: #4caf50;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-.bet-provider {
-  font-weight: bold;
-  color: #888;
-}
-
 .moneyline-center {
   text-align: center;
   width: 100px;
@@ -159,32 +164,62 @@
   background-color: #f44336;
 }
 
-/* Weather box*/
+/* Current hit section */
+.current-hit-content {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.current-hit-content p {
+  margin: 0;
+  font-size: 1.1em;
+}
+
+.current-hit-content h4 {
+  margin-top: 10px;
+  font-size: 1.3em;
+  text-decoration: underline;
+  margin-bottom: 0;
+}
+
+/* Current pitch section */
+.current-pitch {
+  margin-top: 10px;
+}
+
+.current-pitch p {
+  font-size: 1.1em;
+  margin: 5px 0;
+}
+
+/* Weather box */
 .weather-box {
   background-color: navy;
-  color: white; 
-  padding: 20px; 
-  border-radius: 8px; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-  margin: 20px 0; 
-  max-width: 100%; 
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  margin: 20px;
+  max-width: 100%;
 }
 
 .weather-title {
-  font-size: 1.5rem; 
-  font-weight: bold; 
-  margin-bottom: 10px; 
-  text-align: center; 
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
   border-bottom: 2px solid white;
-  padding-bottom: 10px; 
+  padding-bottom: 10px;
 }
 
 .weather-details p {
-  font-size: 1rem; 
-  line-height: 1.5; 
-  margin: 10px 0; 
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 10px 0;
 }
 
 .weather-details strong {
-  color: #FFD700; 
+  color: #ffd700;
 }
