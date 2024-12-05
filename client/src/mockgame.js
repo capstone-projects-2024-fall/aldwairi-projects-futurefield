@@ -266,7 +266,12 @@ function MockGame() {
           </button>
         </div>
         {selectedTab === 'hit predictions' && (
-          <div className="hit-container">
+          <div className="prediction-container">
+            <img
+              src="/strikeout.jpg"
+              alt="strikeout"
+              className="ball-pic"
+            />
             <div className="prediction-text">
               The next bat is predicted to be <strong>{prediction3.prediction}</strong>
             </div>
