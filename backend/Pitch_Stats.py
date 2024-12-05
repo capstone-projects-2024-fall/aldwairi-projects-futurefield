@@ -4,6 +4,9 @@ import joblib
 from pybaseball import statcast
 
 
+# Load the pitch prediction model
+pitch_model = joblib.load('backend\models\pitchType_API_RandomForrest.joblib')
+
 def fetch_game_data(start_date: str, end_date: str) -> pd.DataFrame:
     """
     Fetch pitch-by-pitch data for a given date range.
@@ -21,9 +24,6 @@ def fetch_game_data(start_date: str, end_date: str) -> pd.DataFrame:
         print(f"Error fetching game data: {e}")
         return pd.DataFrame()
 
-
-# Load the pitch prediction model
-pitch_model = joblib.load('backend\models\pitchType_API_RandomForrest.joblib')
 
 def get_pitch_prediction(game_data: pd.DataFrame, inning: int, outs: int, strikes: int, balls: int):
     """
