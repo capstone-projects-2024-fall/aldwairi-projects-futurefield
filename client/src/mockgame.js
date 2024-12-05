@@ -46,20 +46,28 @@ function MockGame() {
   const fetchPrediction2 = () => {
     if (!mockGameDetails) return;
 
-    const mockData = {
-      home_team: mockGameDetails.home_team,
-      visiting_team: mockGameDetails.away_team,
-      season: '2024',
+    const mockData2 = {
+      inning: mockGameDetails.game_state.inning,
+      outs: mockGameDetails.game_state.outs_when_up,
+      strikes: mockGameDetails.game_state.strikes,
+      balls: mockGameDetails.game_state.balls,
     };
 
     fetch('http://127.0.0.1:5000/api/pitch-prediction', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(mockData),
+      body: JSON.stringify(mockData2),
     })
-      .then((response) => response.json())
-      .then((data) => setPrediction2(data))
+      .then((response) => {
+        console.log("Backend response:", response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Prediction data:", data);
+        setPrediction2(data);
+      })
       .catch((error) => console.error('Error fetching alternative prediction:', error));
+    
   };
 
   const fetchPrediction3 = () => {
@@ -297,6 +305,18 @@ function MockGame() {
               <strong>Balls:</strong> {mockGameDetails.game_state.balls}</p>
             <p>
               <strong>Outs:</strong> {mockGameDetails.game_state.outs_when_up}</p>
+          </div>
+        )}
+        {selectedTab === 'pitch predictions' && (
+          <div className="prediction-container">
+            <img
+              src="/fastball.jpg"
+              alt="fastball"
+              className="ball-pic"
+            />
+            <div className="prediction-text">
+              The next ball is predicted to be <strong>{prediction2}</strong>
+            </div>
           </div>
         )}
       </div>

@@ -12,3 +12,5 @@ requests
 joblib
 pandas
 lightgbm
+pybaseball
+scikit-learn==1.5.2

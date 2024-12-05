@@ -25,6 +25,8 @@ def fetch_game_data(start_date: str, end_date: str) -> pd.DataFrame:
         return pd.DataFrame()
 
 
+pitch_model = joblib.load('models/pitchType_API_RandomForrest.joblib')
+
 def get_pitch_prediction(game_data: pd.DataFrame, inning: int, outs: int, strikes: int, balls: int):
     """
     Predict the next pitch based on the current game state.
