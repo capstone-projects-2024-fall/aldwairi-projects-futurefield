@@ -5,6 +5,7 @@ from flask_cors import CORS
 import requests
 import mlAdapter
 import Pitch_Stats
+import Hit_Prediction
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
@@ -238,6 +239,36 @@ def pitch_prediction():
 
         return jsonify(prediction), 200
 
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/hit-prediction', methods=['POST'])
+def hit_prediction():
+    try:
+        data = request.json
+
+        batter_name = data.get('batter_name')
+        pitcher_name = data.get('pitcher_name')
+        zone = data.get('zone')
+        balls = data.get('balls')
+        strikes = data.get('strikes')
+        outs = data.get('outs')
+        on_base = data.get('on_base', {'1b': 0, '2b': 0, '3b': 0})
+
+        if None in [batter_name, pitcher_name, zone, balls, strikes, outs]:
+            return jsonify({"error": "Missing required parameters"}), 400
+
+        prediction_result = Hit_Prediction.get_hit_prediction(
+            batter_name=batter_name,
+            pitcher_name=pitcher_name,
+            zone=zone,
+            balls=balls,
+            strikes=strikes,
+            outs=outs,
+            on_base=on_base
+        )
+
+        return jsonify(prediction_result), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

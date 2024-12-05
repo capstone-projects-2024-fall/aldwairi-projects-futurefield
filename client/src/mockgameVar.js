@@ -19,7 +19,9 @@ const mockGames = [
       balls: 1,
       outs_when_up: 2,
       batter: "Bryce Harper",
+      batter_name: 547180,
       pitcher: "Kodai Senga",
+      pitcher_name: 806852,
       zone: 5,
       runners_on_base: {
         on_1b: 0,

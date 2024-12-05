@@ -72,22 +72,43 @@ function MockGame() {
 
   const fetchPrediction3 = () => {
     if (!mockGameDetails) return;
-
-    const mockData = {
-      home_team: mockGameDetails.home_team,
-      visiting_team: mockGameDetails.away_team,
-      season: '2024',
+  
+    const on_base = {
+      "1b": mockGameDetails.game_state.runners_on_base.on_1b,
+      "2b": mockGameDetails.game_state.runners_on_base.on_2b,
+      "3b": mockGameDetails.game_state.runners_on_base.on_3b,
     };
 
+    const mockData3 = {
+      batter_name: mockGameDetails.game_state.batter_name,
+      pitcher_name: mockGameDetails.game_state.pitcher_name,
+      zone: mockGameDetails.game_state.zone,
+      balls: mockGameDetails.game_state.balls,
+      strikes: mockGameDetails.game_state.strikes,
+      outs: mockGameDetails.game_state.outs_when_up,
+      on_base: on_base, 
+    };
+  
     fetch('http://127.0.0.1:5000/api/hit-prediction', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(mockData),
+      body: JSON.stringify(mockData3),
     })
-      .then((response) => response.json())
-      .then((data) => setPrediction3(data))
-      .catch((error) => console.error('Error fetching hit prediction:', error));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Hit Prediction Data:', data);
+        setPrediction3(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching hit prediction:', error);
+      });
   };
+  
 
   if (!mockGameDetails) {
     return <p>Game not found. Please check the game ID.</p>;
@@ -244,6 +265,14 @@ function MockGame() {
             Predictions
           </button>
         </div>
+        {selectedTab === 'hit predictions' && (
+          <div className="hit-container">
+            <div className="prediction-text">
+              The next bat is predicted to be <strong>{prediction3.prediction}</strong>
+            </div>
+          </div>
+        )}
+
         {selectedTab === 'current_hit' && (
           <div className="current-hit-content">
             <p>

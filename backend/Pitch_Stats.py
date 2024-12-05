@@ -3,9 +3,8 @@ import numpy as np
 import joblib
 from pybaseball import statcast
 
-
 # Load the pitch prediction model
-pitch_model = joblib.load('backend\models\pitchType_API_RandomForrest.joblib')
+pitch_model = joblib.load('models/pitchType_API_RandomForrest.joblib')
 
 def fetch_game_data(start_date: str, end_date: str) -> pd.DataFrame:
     """
