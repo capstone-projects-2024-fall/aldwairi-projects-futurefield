@@ -1,7 +1,7 @@
 import joblib
 import pandas as pd
 import numpy as np
-from backend.MLB_Statistics import getTeamStats
+from backend.Player_Stats import getTeamStats
 import warnings
 warnings.filterwarnings("ignore")
 
