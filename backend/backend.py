@@ -6,6 +6,7 @@ import requests
 import mlAdapter
 import Pitch_Stats
 import Hit_Prediction
+import Player_Stats
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
@@ -241,6 +242,13 @@ def pitch_prediction():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+    
+@app.route('/api/seasonStats', methods=['POST'])
+def get_seasons_stats():
+    season = request.json.get('season')
+    postSeasonResults = Player_Stats.getPostseason(season)
+    return postSeasonResults
 
 @app.route('/api/hit-prediction', methods=['POST'])
 def hit_prediction():

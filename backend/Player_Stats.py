@@ -127,6 +127,46 @@ def getTeamStats(team_name, season):
         "SLG": slg
     }
 
+    
+def getPostseason(season):
+    lookup_url = f"https://statsapi.mlb.com/api/v1/schedule/postseason?season={season}"
+    response = requests.get(lookup_url)
+    if response.status_code != 200:
+        print(f"Error retrieving postseason data: {response.status_code}")
+        return {}
+
+    postseason_data = response.json()
+    series_results = {}
+
+    for games in postseason_data['dates']:
+        for game in games['games']:
+            # Extract series details
+            series_desc = game['seriesDescription']  # "Division Series"
+            home_team = game['teams']['home']['team']['name']
+            away_team = game['teams']['away']['team']['name']
+            home_wins = game['teams']['home']['leagueRecord']['wins']
+            away_wins = game['teams']['away']['leagueRecord']['wins']
+
+            # Sort the teams so that we consistently treat the teams in order
+            series_teams = tuple(sorted([home_team, away_team]))
+            series_key = f"{series_teams[0]} vs {series_teams[1]} ({series_desc})"
+
+            # Initialize or update the series results dictionary
+
+            series_results[series_key] = {
+                'team_1': home_team,
+                'team_2': away_team,
+                'team_1_wins': home_wins,
+                'team_2_wins': away_wins,
+                'series_description': series_desc,
+                'total_games': game['gamesInSeries']
+            }
+
+    
+    return series_results
+
+
+
 
 # Tests
 # print('\n')
