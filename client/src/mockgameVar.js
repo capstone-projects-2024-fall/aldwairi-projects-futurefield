@@ -3,7 +3,7 @@ const mockGames = [
     game_id: "mock1",
     game_time: "7:00 PM",
     date: "2024-10-05",
-    venue: "Mock Stadium",
+    venue: "Citi Field",
     status: "Halfway",
     away_team: "Philadelphia_Phillies",
     home_team: "New_York_Mets",
@@ -19,7 +19,7 @@ const mockGames = [
       balls: 1,
       outs_when_up: 2,
       batter: "Bryce Harper",
-      pitcher: "José Alvarado",
+      pitcher: "Kodai Senga",
       zone: 5,
       runners_on_base: {
         on_1b: 0,
@@ -49,8 +49,8 @@ const mockGames = [
   {
     game_id: "mock2",
     game_time: "7:00 PM",
-    date: "2024-12-05",
-    venue: "Mock Stadium",
+    date: "2024-10-05",
+    venue: "Citi Field",
     status: "Complete",
     away_team: "Philadelphia_Phillies",
     home_team: "New_York_Mets",
@@ -66,7 +66,7 @@ const mockGames = [
       balls: 1,
       outs_when_up: 2,
       batter: "Bryce Harper",
-      pitcher: "José Alvarado",
+      pitcher: "Kodai Senga",
       zone: 5,
       runners_on_base: {
         on_1b: 0,
