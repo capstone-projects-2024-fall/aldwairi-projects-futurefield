@@ -133,8 +133,8 @@ function SeasonScores() {
           min="1960"
           max={currentYear}
         />
-        <button onClick={handleShowPrediction}>Predict Next Year</button>
-        <button onClick={handleShowPlayoffPrediction}>Predict Next Year</button>
+        <button onClick={handleShowPrediction}>World Series Prediction</button>
+        <button onClick={handleShowPlayoffPrediction}>Playoff Prediction</button>
       </div>
 
       {/* Display Series Results */}
