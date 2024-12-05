@@ -166,8 +166,27 @@ def get_game_data(game_id):
         return jsonify(formatted_data)
     else:
         return jsonify({"error": "Game not found"}), 404
+
+@app.route('/api/game-prediction', methods=['POST'])
+def game_prediction():
+    data = request.json
+    game_id = data.get('game_id')
+
+    if not game_id:
+        return jsonify({"error": "Game ID is required"}), 400
+
+    prediction_data = {
+        "home_win_probability": 65.32, 
+        "away_win_probability": 34.68, 
+        "home_pitcher": "John Doe",
+        "home_pitcher_record": "12-3, 2.45 ERA",
+        "away_pitcher": "Jane Smith",
+        "away_pitcher_record": "10-5, 3.10 ERA"
+    }
+
+    return jsonify(prediction_data), 200
     
-@app.route('/api/prediction', methods=['POST'])
+@app.route('/api/win-prediction', methods=['POST'])
 def win_prediction():
     data = request.json
     home_team = data.get('home_team', '').replace('_', ' ')

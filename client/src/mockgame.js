@@ -7,12 +7,16 @@ function MockGame() {
   const { mockGameId } = useParams();
   const [prediction, setPrediction] = useState(null);
   const [selectedTab, setSelectedTab] = useState('Summary');
+  const [prediction2, setPrediction2] = useState('Summary');
 
   const mockGameDetails = mockGames.find((game) => game.game_id === mockGameId);
 
   useEffect(() => {
-    if (selectedTab === 'predictions' && mockGameDetails) {
+    if (selectedTab === 'score predictions' && mockGameDetails) {
       fetchPrediction();
+    }
+    if (selectedTab === 'pitch predictions' && mockGameDetails) {
+      fetchPrediction2(); 
     }
   }, [selectedTab, mockGameDetails]);
 
@@ -25,7 +29,7 @@ function MockGame() {
       season: '2024',
     };
 
-    fetch('http://127.0.0.1:5000/api/prediction', {
+    fetch('http://127.0.0.1:5000/api/win-prediction', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(mockData),
@@ -33,6 +37,25 @@ function MockGame() {
       .then((response) => response.json())
       .then((data) => setPrediction(data))
       .catch((error) => console.error('Error fetching prediction:', error));
+  };
+
+  const fetchPrediction2 = () => {
+    if (!mockGameDetails) return;
+
+    const mockData = {
+      home_team: mockGameDetails.home_team,
+      visiting_team: mockGameDetails.away_team,
+      season: '2024',
+    };
+
+    fetch('http://127.0.0.1:5000/api/pitch-prediction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(mockData),
+    })
+      .then((response) => response.json())
+      .then((data) => setPrediction2(data))
+      .catch((error) => console.error('Error fetching alternative prediction:', error));
   };
 
   if (!mockGameDetails) {
@@ -80,7 +103,7 @@ function MockGame() {
       </div>
 
       <div className="game-details2">
-        <h2>Game Statistics</h2>
+        <h2>Winning Statistics</h2>
         <div className="tabs">
           <button
             onClick={() => setSelectedTab('current_score')}
@@ -89,14 +112,14 @@ function MockGame() {
             Current Score
           </button>
           <button
-            onClick={() => setSelectedTab('predictions')}
+            onClick={() => setSelectedTab('score predictions')}
             className={selectedTab === 'predictions' ? 'active' : ''}
           >
             Predictions
           </button>
         </div>
 
-        {selectedTab === 'predictions' && prediction && (
+        {selectedTab === 'score predictions' && prediction && (
           <div className="moneyline-container">
             <div className="team-info">
               <img
@@ -139,6 +162,98 @@ function MockGame() {
         )}
 
         {selectedTab === 'current_score' && (
+          <div className="moneyline-container">
+            <div className="team-info">
+              <img
+                src={`/logos/${mockGameDetails.away_team.replace(/\s/g, '_')}.png`}
+                alt={`${mockGameDetails.away_team} logo`}
+                className="team-logo"
+              />
+              <div className="team-details">
+                <h3>{mockGameDetails.away_team}</h3>
+                <p>
+                  Current Score: {mockGameDetails.away_score} -{' '}
+                  {mockGameDetails.home_score}
+                </p>
+              </div>
+            </div>
+
+            <div className="team-info">
+              <img
+                src={`/logos/${mockGameDetails.home_team.replace(/\s/g, '_')}.png`}
+                alt={`${mockGameDetails.home_team} logo`}
+                className="team-logo"
+              />
+              <div className="team-details">
+                <h3>{mockGameDetails.home_team}</h3>
+                <p>
+                  Current Score: {mockGameDetails.home_score} -{' '}
+                  {mockGameDetails.away_score}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <h2>Pitch Statistics</h2>
+        <div className="tabs">
+          <button
+            onClick={() => setSelectedTab('current_pitch')}
+            className={selectedTab === 'current_pitch' ? 'active' : ''}
+          >
+            Current Pitch
+          </button>
+          <button
+            onClick={() => setSelectedTab('pitch predictions')}
+            className={selectedTab === 'pitch predictions' ? 'active' : ''}
+          >
+            Predictions
+          </button>
+        </div>
+
+        {selectedTab === 'pitch predictions' && prediction && (
+          <div className="moneyline-container">
+            <div className="team-info">
+              <img
+                src={`/logos/${mockGameDetails.away_team.replace(/\s/g, '_')}.png`}
+                alt={`${mockGameDetails.away_team} logo`}
+                className="team-logo"
+              />
+              <div className="team-details">
+                <h3>{mockGameDetails.away_team}</h3>
+                <p>Win Probability: {prediction.away_win_prob}%</p>
+              </div>
+            </div>
+
+            <div className="moneyline-center">
+              <p>Moneyline</p>
+              <div className="win-bar">
+                <div
+                  className="away-bar"
+                  style={{ width: `${prediction.away_win_prob}%` }}
+                ></div>
+                <div
+                  className="home-bar"
+                  style={{ width: `${prediction.home_win_prob}%` }}
+                ></div>
+              </div>
+            </div>
+
+            <div className="team-info">
+              <img
+                src={`/logos/${mockGameDetails.home_team.replace(/\s/g, '_')}.png`}
+                alt={`${mockGameDetails.home_team} logo`}
+                className="team-logo"
+              />
+              <div className="team-details">
+                <h3>{mockGameDetails.home_team}</h3>
+                <p>Win Probability: {prediction.home_win_prob}%</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedTab === 'current_pitch' && (
           <div className="moneyline-container">
             <div className="team-info">
               <img
